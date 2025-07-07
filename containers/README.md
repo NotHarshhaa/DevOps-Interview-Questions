@@ -662,7 +662,41 @@ spec:
 
 ### **Docker Advanced Questions**  
 
-### **41. What are Docker namespaces and cgroups? How do they contribute to containerization?**  
+### **41. How do Docker namespaces and cgroups work together to provide container isolation?**
+
+Namespaces isolate the container’s view of the system (process IDs, network interfaces, mount points, etc.), making each container appear as a separate system. Cgroups (control groups) limit and prioritize resource usage (CPU, memory, I/O) for containers. Together, namespaces provide *security and separation*, while cgroups enforce *resource constraints*, enabling lightweight, secure containers without full virtualization.
+
+---
+
+### **42. Explain the difference between Docker Volumes, Bind Mounts, and tmpfs mounts. When would you use each?**
+
+- **Docker Volumes:** Managed by Docker, stored in Docker’s storage area, best for persistent data that needs to survive container restarts and be shared between containers.
+- **Bind Mounts:** Mount a host directory/file into a container, useful for development when you want live code changes reflected immediately.
+- **tmpfs mounts:** Store data in the host’s memory only, ephemeral and fast, used for sensitive data or temporary files that should not persist.
+
+---
+
+### **43. What are the advantages of Docker BuildKit, and how does it improve the Docker build process?**
+
+BuildKit improves build speed with parallel builds, better caching, and efficient layer reuse. It supports advanced features like build secrets, SSH forwarding, and inline cache export/import. BuildKit also produces smaller images by allowing multi-stage builds with better control and reduces build context size.
+
+---
+
+### **44. How do you secure a Docker container in production?**
+
+Key practices include:
+
+- Use minimal base images to reduce attack surface.
+- Run containers with least privileges (non-root user).
+- Use Docker Content Trust to verify image signatures.
+- Limit container resource usage with cgroups.
+- Use seccomp, AppArmor, or SELinux profiles to restrict syscalls.
+- Regularly scan images for vulnerabilities.
+- Isolate containers using user namespaces and network policies.
+
+---
+
+### **45. What are Docker namespaces and cgroups? How do they contribute to containerization?**  
 
 **Answer:**  
 
@@ -678,7 +712,7 @@ cat /proc/self/cgroup
 
 ---
 
-### **42. What is the difference between Docker Volumes, Bind Mounts, and tmpfs?**  
+### **46. What is the difference between Docker Volumes, Bind Mounts, and tmpfs?**  
 
 **Answer:**  
 
@@ -696,7 +730,7 @@ docker run -v myvolume:/data nginx
 
 ---
 
-### **43. What are Docker BuildKit advantages?**  
+### **47. What are Docker BuildKit advantages?**  
 
 **Answer:**  
 
@@ -712,7 +746,7 @@ DOCKER_BUILDKIT=1 docker build .
 
 ---
 
-### **44. How do you secure a Docker container?**  
+### **48. How do you secure a Docker container?**  
 
 **Answer:**  
 
@@ -729,7 +763,7 @@ docker run --user 1001 --read-only nginx
 
 ---
 
-### **45. How do multi-stage builds improve security in Docker?**  
+### **49. How do multi-stage builds improve security in Docker?**  
 
 **Answer:**  
 
@@ -750,7 +784,7 @@ ENTRYPOINT ["/myapp"]
 
 ---
 
-### **46. What are immutable infrastructure principles, and how do they apply to Docker?**  
+### **50. What are immutable infrastructure principles, and how do they apply to Docker?**  
 
 **Answer:**  
 
@@ -760,7 +794,7 @@ ENTRYPOINT ["/myapp"]
 
 ---
 
-### **47. How does Docker Content Trust (DCT) improve security?**  
+### **51. How does Docker Content Trust (DCT) improve security?**  
 
 **Answer:**  
 
@@ -773,7 +807,7 @@ ENTRYPOINT ["/myapp"]
 
 ---
 
-### **48. How do you troubleshoot a Docker daemon issue?**  
+### **52. How do you troubleshoot a Docker daemon issue?**  
 
 **Answer:**  
 
@@ -783,7 +817,7 @@ ENTRYPOINT ["/myapp"]
 
 ---
 
-### **49. What is the difference between Docker stack and Docker compose?**  
+### **53. What is the difference between Docker stack and Docker compose?**  
 
 **Answer:**  
 
@@ -792,7 +826,7 @@ ENTRYPOINT ["/myapp"]
 
 ---
 
-### **50. How do you handle container networking in a multi-host Docker Swarm?**  
+### **54. How do you handle container networking in a multi-host Docker Swarm?**  
 
 **Answer:**  
 
@@ -805,9 +839,27 @@ ENTRYPOINT ["/myapp"]
 
 ---
 
-## **Kubernetes Advanced Questions**  
+## **Kubernetes Advanced Questions**
 
-### **51. How does Kubernetes handle stateful applications?**  
+### **55. What is a PodDisruptionBudget (PDB) and how does it help maintain high availability?**
+
+A PDB defines the minimum number or percentage of pods that must remain available during voluntary disruptions (e.g., node drain, rolling updates). It prevents Kubernetes from evicting too many pods at once, ensuring application availability during maintenance or upgrades.
+
+---
+
+### **56. How do Kubernetes Admission Controllers enhance cluster security?**
+
+Admission Controllers intercept requests to the Kubernetes API server after authentication and authorization but before persistence. They can enforce policies, mutate requests, or reject unsafe operations. Examples include PodSecurityPolicy, ResourceQuota, and NetworkPolicy controllers, which enforce security, resource limits, and network segmentation.
+
+---
+
+### **57. Explain how Kubernetes Horizontal Pod Autoscaler (HPA) works internally.**
+
+HPA monitors metrics like CPU or custom metrics via the Metrics API. It compares current usage against target thresholds and adjusts the number of pod replicas accordingly by updating the Deployment or ReplicaSet spec. It uses a control loop running every 15 seconds by default to maintain desired load levels.
+
+---
+
+### **58. How does Kubernetes handle stateful applications?**  
 
 **Answer:**  
 
@@ -828,7 +880,7 @@ spec:
 
 ---
 
-### **52. What are PodDisruptionBudgets (PDBs)?**  
+### **59. What are PodDisruptionBudgets (PDBs)?**  
 
 **Answer:**  
 
@@ -849,7 +901,7 @@ spec:
 
 ---
 
-### **53. How do you secure Kubernetes Secrets?**  
+### **60. How do you secure Kubernetes Secrets?**  
 
 **Answer:**  
 
@@ -863,7 +915,7 @@ spec:
 
 ---
 
-### **54. What are Kubernetes Admission Controllers?**  
+### **61. What are Kubernetes Admission Controllers?**  
 
 **Answer:**  
 
@@ -872,7 +924,7 @@ spec:
 
 ---
 
-### **55. How does Kubernetes handle node failures?**  
+### **62. How does Kubernetes handle node failures?**  
 
 **Answer:**  
 
@@ -882,7 +934,7 @@ spec:
 
 ---
 
-### **56. What is a Kubernetes Mutating Webhook?**  
+### **63. What is a Kubernetes Mutating Webhook?**  
 
 **Answer:**  
 
@@ -891,7 +943,7 @@ spec:
 
 ---
 
-### **57. How do you debug networking issues in Kubernetes?**  
+### **64. How do you debug networking issues in Kubernetes?**  
 
 **Answer:**  
 
@@ -915,7 +967,7 @@ spec:
 
 ---
 
-### **58. How does Kubernetes Horizontal Pod Autoscaler (HPA) work internally?**  
+### **65. How does Kubernetes Horizontal Pod Autoscaler (HPA) work internally?**  
 
 **Answer:**  
 
@@ -929,7 +981,7 @@ spec:
 
 ---
 
-### **59. How do you implement multi-tenancy in Kubernetes?**  
+### **66. How do you implement multi-tenancy in Kubernetes?**  
 
 **Answer:**  
 
@@ -951,7 +1003,7 @@ spec:
 
 ---
 
-### **60. What is Kubernetes Cluster Federation?**  
+### **67. What is Kubernetes Cluster Federation?**  
 
 **Answer:**  
 
