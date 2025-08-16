@@ -36,7 +36,7 @@ We cover:
 
 ---
 
-**💡 New to DevOps Interviews?** Start with our **[Beginner's Guide](#📌-how-to-use-this-repository)** to get a roadmap!  
+**💡 New to DevOps Interviews?** Start with our **[Beginner's Guide](#-how-to-use-this-repository)** to get a roadmap!  
 
 ---
 
