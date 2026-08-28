@@ -71,16 +71,13 @@ Welcome to the **Ultimate DevOps, SRE & Platform Engineering Interview Guide**! 
 
 ---
 
-## 🤝 Contributing  
+## 🤝 Contributing & Community
 
-We welcome community contributions! If you have new interview questions, real-world case studies, or improvements:
-1. Fork the repository.
-2. Create your feature branch (`git checkout -b feature/new-questions`).
-3. Commit your changes (`git commit -m 'Add modern Karpenter interview questions'`).
-4. Push to the branch (`git push origin feature/new-questions`).
-5. Open a Pull Request.
-
-Please check [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+We welcome community contributions! Please review our community guidelines:
+- 📜 **[Contributing Guidelines](CONTRIBUTING.md)**: How to submit new questions, markdown standards, and PR workflows.
+- 🌟 **[Code of Conduct](CODE_OF_CONDUCT.md)**: Our pledge to maintain a welcoming, inclusive, and harassment-free environment.
+- 🔒 **[Security Policy](SECURITY.md)**: Vulnerability reporting procedures, SLAs, and credential safety rules.
+- 📄 **[License](LICENSE)**: MIT License terms.
 
 ---
 
@@ -97,3 +94,4 @@ If this repository helps you prepare for interviews or learn modern DevOps:
 ---
 
 ![banner](https://imgur.com/8ypFtRx.png)
+
