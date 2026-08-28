@@ -1,67 +1,59 @@
-# 🚀 DevOps, SRE & Platform Engineering Interview Questions & Answers  
+# 🚀 Ultimate DevOps & SRE Interview Guide (2,200+ Questions)
 
 ![DevOps Banner](https://imgur.com/7Vjj0UE.png)
 
-## 📌 About This Repository  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/NotHarshhaa/DevOps-Interview-Questions/graphs/commit-activity)
+[![Questions](https://img.shields.io/badge/Questions-2%2C200%2B-blue.svg)](#-table-of-contents)
 
-![about](https://imgur.com/i6dZXRH.png)
-
-Welcome to **DevOps, SRE & Platform Engineering Interview Questions & Answers** – your comprehensive, modern, production-grade guide for acing **DevOps, Cloud, SRE, Platform Engineering, and DevSecOps interviews**! 🚀  
-
-This repository contains **1100+ rigorously crafted interview questions** with detailed, technical, production-tested answers, real-world troubleshooting scenarios, code snippets, and architectural trade-offs. Whether you're a **beginner preparing for your first cloud role** or a **Senior/Lead Engineer preparing for Tier-1 enterprise and FAANG interviews**, this resource is designed to help you succeed.
-
----
-
-### 🔥 What Makes This Repository Unique?
-- ✅ **Up-to-Date for Modern Tech**: Covers cutting-edge standards like **Platform Engineering, OpenTelemetry, Gateway API, Karpenter, Cilium & eBPF, GitOps (ArgoCD/Flux), OpenTofu, Crossplane, SLSA Framework, and FinOps**.
-- ✅ **Practical & Scenario-Based**: Not just 1-sentence theory; includes **real-world failure mitigation, CLI commands, YAML manifests, PromQL queries, and Python automation scripts**.
-- ✅ **System Design & Live Incident Rounds**: Complete mock interview simulations covering high-scale architecture and 504/OOM/DNS troubleshooting.
-- ✅ **Structured Difficulty Levels**: 🟢 **Beginner** | 🟡 **Intermediate** | 🔴 **Advanced / Scenario-Based**.
+Welcome to the **Ultimate DevOps, SRE & Platform Engineering Interview Guide**! This repository contains **2,200+ battle-tested, enterprise-grade interview questions and detailed answers**, complete with architectural diagrams, production-grade YAML/HCL configurations, failure recovery workflows, and real-world system design case studies.
 
 ---
 
-## 📂 Topics Covered  
+## 📚 Table of Contents & Question Modules
 
-| Category | Topics & Tools Covered | 🔗 Quick Link |
-| :--- | :--- | :--- |
-| 🏗️ **Core Concepts & SRE** | DevOps vs SRE vs Platform Engineering, DORA Metrics, SLI/SLO/SLA, Error Budgets, Toil, FinOps, Deployment Strategies | [View Questions](core-concepts/README.md) |
-| ⚡ **CI/CD & GitOps** | GitHub Actions (OIDC, ARC, Reusable Workflows), GitLab CI, ArgoCD, Flux, Progressive Delivery (Argo Rollouts, Flagger), Supply Chain (SLSA, SBOM, Cosign) | [View Questions](ci-cd/README.md) |
-| 📦 **Containers & Kubernetes** | Docker, containerd, Kubernetes 1.28+, Gateway API, Karpenter, Cilium/eBPF, KEDA, Pod Security Standards, `kubectl debug`, Troubleshooting | [View Questions](containers/README.md) |
-| ☁️ **Cloud & Multi-Cloud** | AWS, Azure, GCP, Workload Identity / IRSA, Transit Gateway, PrivateLink, Multi-Region Active-Active, FinOps Cost Optimization | [View Questions](cloud/README.md) |
-| 🛠️ **Infrastructure as Code** | Terraform, OpenTofu, Terragrunt, Crossplane, Pulumi, Ansible, State Management, Drift Detection, IaC Security (Checkov/Trivy), Terratest | [View Questions](infrastructure-as-code/README.md) |
-| 📊 **Monitoring & Observability** | OpenTelemetry (OTel Collector), Prometheus, PromQL, Grafana, Loki, Tempo, Thanos/Mimir, eBPF Continuous Profiling (Pyroscope/Parca) | [View Questions](monitoring-logging/README.md) |
-| 🔒 **Networking & DevSecOps** | Zero Trust Architecture, mTLS, SPIFFE/SPIRE, NetworkPolicies, HashiCorp Vault, OPA Gatekeeper/Kyverno, Runtime Security (Falco/Tetragon) | [View Questions](networking-security/README.md) |
-| 🐍 **Automation & Scripting** | Production Bash (`set -euo pipefail`, `jq`, `yq`, `trap`), Python (`boto3`, Kubernetes Client, Prometheus scrapers), CLI Tools | [View Questions](automation-scripting/README.md) |
-| 🐧 **Linux & System Admin** | Kernel Internals, Namespaces, cgroups v2, `systemd`, Process Management, TCP/IP Socket Tuning, Memory & Disk Troubleshooting | [View Questions](linux-system-admin/README.md) |
-| 🌿 **Git & Version Control** | Git Internals, Branching Strategies (Trunk-Based vs GitFlow), Rebase vs Merge, Cherry-Pick, Bisect, Reflog Disaster Recovery | [View Questions](version-control/README.md) |
-| 🏆 **DevOps Best Practices** | 12-Factor App, Immutable Infrastructure, Disaster Recovery (RTO/RPO), Chaos Engineering, High Availability Patterns, SRE Governance | [View Questions](best-practices/README.md) |
-| 🎯 **Mock Interviews & Scenarios** | Senior/Lead DevOps System Design (CI/CD Platform, Global EKS), Live Incident Walkthroughs (504 Outage, Node Flapping), SRE Leadership | [View Questions](mock-interviews/README.md) |
-| 📖 **Cheat Sheets** | Quick Command References for Kubernetes, Docker, Linux, Git, Terraform, and CI/CD | [View Cheat Sheets](cheat-sheets/README.md) |
-| 📑 **PDFs & Study Docs** | Downloadable interview preparation guides, checklists, and curated revision docs | [Download Docs](docs/README.md) |
+| Module / Topic | Questions | Topics Covered | Link |
+| :--- | :---: | :--- | :---: |
+| 🏗️ **Core Concepts & SRE** | **200** | DevOps Fundamentals, SRE, DORA Metrics, SLI/SLO/SLA, Error Budgets, Platform Engineering, FinOps | [Explore](core-concepts/README.md) |
+| ⚡ **CI/CD & GitOps** | **200** | GitHub Actions OIDC, GitLab CI, Jenkins, ArgoCD, Flux, Tekton, Progressive Delivery, SLSA, SBOM | [Explore](ci-cd/README.md) |
+| 📦 **Containers & Kubernetes** | **250** | Docker Internals, containerd, Kubernetes Control Plane, Gateway API, Karpenter, Cilium/eBPF, Helm, Troubleshooting | [Explore](containers/README.md) |
+| ☁️ **Cloud Computing & Architecture** | **250** | AWS Deep Dive, Microsoft Azure, Google Cloud (GCP), Multi-Cloud Architecture, Transit Gateway, Aurora Global DB | [Explore](cloud/README.md) |
+| 🛠️ **Infrastructure as Code (IaC)** | **200** | Terraform 1.5+, OpenTofu, Terragrunt, Crossplane, Pulumi, Ansible, State Locking, Drift Detection | [Explore](infrastructure-as-code/README.md) |
+| 📊 **Monitoring & Observability** | **200** | OpenTelemetry (OTel), Prometheus, PromQL, Grafana, Loki (LogQL), Tempo Tracing, Mimir, eBPF Profiling | [Explore](monitoring-logging/README.md) |
+| 🔒 **Networking & DevSecOps** | **200** | Zero Trust Architecture, mTLS, SPIFFE/SPIRE, Kubernetes NetworkPolicies, HashiCorp Vault, Kyverno, Falco | [Explore](networking-security/README.md) |
+| 🐍 **Automation & Scripting** | **200** | Production Bash (`set -euo pipefail`), Python for DevOps (`boto3`, K8s Client), Go for DevOps, `jq`/`yq` CLI | [Explore](automation-scripting/README.md) |
+| 🐧 **Linux & System Administration** | **200** | Linux Boot, Kernel Tuning, Systemd, Virtual Memory, cgroups v2, Inodes, TCP Sockets, OS Debugging | [Explore](linux-system-admin/README.md) |
+| 🌿 **Git & Version Control** | **150** | Git Internals (Blobs, Trees, Commits), Interactive Rebase, Cherry-Pick, Bisect, Disaster Recovery via Reflog | [Explore](version-control/README.md) |
+| 🏆 **Best Practices & Architecture** | **100** | 12-Factor App, High Availability, Disaster Recovery (RTO/RPO), Immutable Infra, Chaos GameDays | [Explore](best-practices/README.md) |
+| 🎯 **Mock Interviews & Scenarios** | **50** | Senior/Lead System Design Rounds, Live Outage Triage (504, OOM, DNS storms), SRE Leadership | [Explore](mock-interviews/README.md) |
+| **TOTAL** | **2,200+** | **Comprehensive, Production-Ready, FAANG & Enterprise Interview Preparation** | |
 
 ---
 
-## 📂 Repository Structure  
+## 🗺️ Modern DevOps Career Learning Roadmap
 
 ```
-📦 devops-interview-questions  
- ├── 📁 core-concepts/             # DevOps, SRE, Platform Engineering & DORA metrics  
- ├── 📁 ci-cd/                     # CI/CD pipelines, GitHub Actions, GitOps & Progressive Delivery  
- ├── 📁 containers/                # Docker, Containerd, Modern Kubernetes, Gateway API & Karpenter  
- ├── 📁 cloud/                     # AWS, Azure, GCP, Multi-Region & Cloud FinOps  
- ├── 📁 infrastructure-as-code/    # Terraform, OpenTofu, Terragrunt & Crossplane  
- ├── 📁 monitoring-logging/        # OpenTelemetry, Prometheus, Grafana, Loki & Tracing  
- ├── 📁 networking-security/       # Zero Trust, DevSecOps, SPIFFE/SPIRE, Vault & Kyverno  
- ├── 📁 automation-scripting/      # Production Bash, Python, Boto3 & K8s Client Scripts  
- ├── 📁 linux-system-admin/        # Linux Kernel, cgroups, Networking & OS Troubleshooting  
- ├── 📁 version-control/           # Advanced Git Internals, Workflows & Disaster Recovery  
- ├── 📁 best-practices/            # 12-Factor, High Availability, Chaos Engineering & DR  
- ├── 📁 mock-interviews/           # System Design & Live Production Outage Simulations  
- ├── 📁 cheat-sheets/              # Fast reference guides & command cheat sheets  
- ├── 📁 docs/                      # Downloadable PDFs & preparation checklists  
- ├── 📄 CONTRIBUTING.md            # Guidelines for community contributions  
- ├── 📄 CODE_OF_CONDUCT.md        # Code of Conduct  
- └── 📄 README.md                  # Project overview (this file)  
+                               THE MODERN DEVOPS & SRE ROADMAP
+ ┌────────────────────────────────────────────────────────────────────────────────────────┐
+ │ 1. FOUNDATIONS: Linux Internals • TCP/IP Networking • Python & Bash Scripting • Git   │
+ └──────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                            ▼
+ ┌────────────────────────────────────────────────────────────────────────────────────────┐
+ │ 2. CONTAINERS & INFRASTRUCTURE: Docker & containerd • Kubernetes • Terraform / OpenTofu│
+ └──────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                            ▼
+ ┌────────────────────────────────────────────────────────────────────────────────────────┐
+ │ 3. DELIVERY & CLOUD: Cloud Providers (AWS/Azure/GCP) • CI/CD Pipelines • GitOps (ArgoCD)│
+ └──────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                            ▼
+ ┌────────────────────────────────────────────────────────────────────────────────────────┐
+ │ 4. OBSERVABILITY & RELIABILITY: OpenTelemetry • Prometheus & PromQL • Grafana • SRE    │
+ └──────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                            ▼
+ ┌────────────────────────────────────────────────────────────────────────────────────────┐
+ │ 5. SECURITY & GOVERNANCE: Zero Trust • SPIFFE/SPIRE • Vault • Kyverno/OPA • FinOps    │
+ └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---

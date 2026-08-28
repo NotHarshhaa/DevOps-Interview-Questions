@@ -1,454 +1,575 @@
-# **Version Control - DevOps Interview Questions**
+# **Git & Version Control - DevOps Interview Questions (150 Questions)**
 
-## **Beginner Level (1-20 Questions)**
-
-### **1. What is version control and why is it important in DevOps?**
-
-**Answer:**
-Version control is a system that records changes to files over time, allowing you to recall specific versions later. In DevOps, it's crucial as it enables collaboration among team members, tracks changes, maintains history, facilitates code reviews, and supports continuous integration and deployment pipelines. Version control systems provide a single source of truth for application code and infrastructure definitions, making them foundational to DevOps practices.
-
-Version control brings several key benefits to DevOps workflows: it provides an audit trail of changes for compliance and debugging; enables parallel development through branching and merging; supports the automation essential to CI/CD pipelines; facilitates rollbacks when issues arise; and documents the evolution of code through commit messages. Modern DevOps relies heavily on Infrastructure as Code (IaC), which benefits from the same version control practices traditionally applied to application code.
-
-The most widely adopted version control system in DevOps is Git, though some organizations still use alternatives like Subversion (SVN) or Mercurial. When integrated with platforms like GitHub, GitLab, or Bitbucket, version control becomes the central hub around which DevOps practices like code reviews, automated testing, and deployment pipelines are built. This integration enables practices like GitOps, where Git becomes the source of truth for declarative infrastructure and application configuration.
-
-### **2. What is Git and how is it different from other version control systems?**
-
-**Answer:**
-Git is a distributed version control system created by Linus Torvalds in 2005 to manage Linux kernel development. Unlike centralized systems (like SVN), Git allows every developer to have a complete copy of the repository with full history. This enables offline work, faster operations, and better branching/merging capabilities. Git uses a snapshot-based approach rather than file-based tracking, and it ensures data integrity through SHA-1 hashing.
-
-Git's distributed nature perfectly aligns with modern DevOps practices, enabling teams to work in parallel without blocking each other. Its lightweight branching system facilitates feature branch workflows, where features are developed in isolation and merged only when complete. The local repository concept allows developers to commit frequently in small increments without affecting others, encouraging granular changes that are easier to review and troubleshoot.
-
-From a DevOps perspective, Git's speed and efficiency handle large codebases effectively, while its support for hooks enables automation of testing, linting, and deployment processes at different stages of the commit/push workflow. These characteristics, combined with Git's widespread adoption and robust ecosystem of tools and integrations, make it the de facto standard for version control in modern DevOps environments with distributed teams and CI/CD pipelines.
-
-### **3. What is a repository in Git?**
-
-**Answer:**
-A repository (or repo) in Git is a storage location that contains all of your project's files and the complete history of changes made to those files. It includes the entire codebase along with its commit history, branches, tags, and configuration. Repositories can be categorized as local (on your computer) or remote (on a server like GitHub, GitLab, or Bitbucket), each serving different purposes in the development workflow.
-
-The core of a Git repository is the hidden .git directory created when you initialize a repo with `git init` or clone an existing one with `git clone`. This directory contains all the necessary data structures and metadata that make version control possible, including objects (commits, trees, blobs), references (branches, tags), configuration settings, hooks for automation, logs of all actions, and the HEAD pointer that tracks your current position in the history.
-
-In the context of DevOps, repositories often contain not just application code but also infrastructure definitions, deployment configurations, CI/CD pipeline definitions, and documentation. Repositories can be organized in different ways—monorepos contain multiple projects in a single repository for simplified dependency management and atomic changes across projects, while a multi-repo approach keeps projects separate for cleaner boundaries and independent versioning. Each approach has different implications for DevOps workflows, particularly around testing, integration, and deployment processes.
-
-### **4. What is the difference between Git and GitHub?**
-
-**Answer:**
-Git is a distributed version control system that allows developers to track changes in source code during software development. GitHub, on the other hand, is a cloud-based hosting service for Git repositories that provides a web-based graphical interface and additional collaboration features like pull requests, issue tracking, code reviews, and project management tools. While Git is the tool that manages your source code history, GitHub is a service that hosts Git repositories and extends Git's functionality with its own features.
-
-From a technical perspective, Git is the underlying version control technology—a command-line tool installed locally that provides the core functionality for tracking changes, branching, merging, and maintaining history. It works independently without requiring internet access or any external services. GitHub (along with alternatives like GitLab and Bitbucket) provides a centralized location to store Git repositories in the cloud, adding a visual interface and collaboration tools that Git itself doesn't provide.
-
-In DevOps workflows, this distinction is important because Git handles the fundamental version control operations, while platforms like GitHub provide the collaborative features that enable practices like code reviews, integration with CI/CD systems, issue tracking, and project management. GitHub Actions, for instance, allows you to define automated workflows triggered by Git events, showing how these platforms extend Git's capabilities to support the broader DevOps lifecycle. Teams might choose different hosting platforms based on specific needs, but the underlying Git commands and concepts remain consistent regardless of which platform is used.
-
-### **5. Explain the basic Git workflow.**
-
-**Answer:**
-The basic Git workflow involves four fundamental areas: the working directory, staging area (index), local repository, and remote repository. This workflow forms the foundation of version control operations and is essential to understand for effective DevOps practices.
-
-First, you make changes in your working directory, which is the actual set of files you're editing. Once you've made meaningful changes, you stage them using `git add` to prepare them for committing. The staging area (or index) acts as a middle ground that allows you to carefully select which changes should be included in the next commit—enabling atomic commits that represent logical units of work rather than capturing all changes indiscriminately.
-
-Next, you commit the staged changes to your local repository using `git commit`, creating a permanent snapshot in your project's history with a descriptive message explaining the changes. This step is critical for maintaining a clear, understandable project history. Finally, you share your changes with others by pushing to a remote repository with `git push`, making your commits available to teammates or CI/CD systems.
-
-Throughout development, you'll need to incorporate others' changes into your local copy. This is done using `git pull` (which is effectively a `git fetch` followed by a `git merge`) to download remote changes and integrate them with your local work. This cyclical process of making changes, committing locally, pushing to share, and pulling to incorporate others' work forms the core loop of collaborative development in Git-based DevOps workflows.
-
-### **6. What is a commit in Git?**
-
-**Answer:**
-A commit in Git is a snapshot of your repository at a specific point in time, capturing the state of all tracked files at the moment it was created. Each commit acts as a savepoint in your project's history that you can return to if needed. Technically, a commit is an object in Git's data structure that records multiple pieces of information: a pointer to the exact version of each tracked file (via a tree object), the author and committer information (name and email), a timestamp, a commit message describing the changes, and references to its parent commit(s).
-
-Every commit is identified by a unique SHA-1 hash (like `a1b2c3d4e5...`), which is generated based on the contents of the files and the metadata included in the commit. This ensures data integrity, as any change to the commit's content would result in a completely different hash. Commits are immutable once created—you don't edit commits; you create new ones that replace or build upon previous ones.
-
-In DevOps workflows, well-structured commits are crucial for maintaining clear history, facilitating code reviews, and enabling operations like bisecting to find bugs. Best practices include making atomic commits (focused on a single logical change), writing descriptive commit messages that explain the why (not just the what) of changes, and committing regularly to create smaller, more manageable units of change. Commits also form the foundation for branching and merging strategies that enable parallel development and continuous integration practices.
-
-### **7. What is a branch in Git and why is it used?**
-
-**Answer:**
-A branch in Git is a lightweight movable pointer to a specific commit that represents an independent line of development. From a technical perspective, a branch is simply a reference or pointer stored as a simple file in the .git/refs/heads/ directory containing the commit hash it points to. When you commit changes on a branch, the pointer automatically moves forward to the new commit. This lightweight implementation (unlike in some older version control systems) is what makes Git branching so fast and efficient.
-
-Branches serve as the foundation for parallel development workflows, allowing developers to work on features, bug fixes, or experiments in isolation without affecting the main codebase. This isolation creates a safe environment for changes and enables multiple developers to work simultaneously on different aspects of a project without blocking or interfering with each other's work. Without branches, collaborative development would be significantly more challenging and risky.
-
-In DevOps practices, branching strategies like GitHub Flow, GitFlow, or Trunk-Based Development define how teams use branches to manage feature development, releases, and hotfixes. These strategies influence how code moves through the development lifecycle and interacts with CI/CD pipelines. For instance, feature branches often trigger build and test processes when pushed, while merges to main/master branches might trigger additional tests and deployment processes. Branch protection rules can enforce quality gates like required reviews and passing tests before changes can be integrated, making branches a critical control point for maintaining code quality in DevOps environments.
-
-### **8. What is the purpose of the Git staging area?**
-
-**Answer:**
-The Git staging area (also called the index) acts as an intermediate step between your working directory and the repository. It allows you to selectively choose which changes to include in your next commit, rather than committing all modified files at once. This gives you fine-grained control over your commit history, enabling you to create logical, focused commits that each represent a single coherent change. The staging area also allows you to review changes before committing them, helping to ensure you don't accidentally commit unwanted changes.
-
-From a technical standpoint, the staging area is a binary file (.git/index) that records a list of all tracked files along with their most recently staged content. When you run `git add`, you're updating this index with the current state of the specified files from your working directory. The staging area effectively lets you build your next commit incrementally, file by file or even chunk by chunk (with `git add -p`), allowing for precise version control.
-
-In DevOps contexts, the staging area enables important practices like creating atomic commits (focused on a single logical change) and keeping unrelated changes separate. This granularity is valuable for code reviews, as it allows reviewers to understand discrete changes more easily. It also facilitates more effective troubleshooting when issues arise, as atomic commits make it easier to identify which specific change introduced a problem. The staging area's ability to separate the act of saving work (adding to the index) from recording it in history (committing) provides flexibility that's particularly valuable in complex development environments.
-
-### **9. What is a merge conflict in Git and how do you resolve it?**
-
-**Answer:**
-A merge conflict occurs in Git when two branches have made competing changes to the same part of a file, or when one branch modifies a file while another branch deletes it. Git cannot automatically determine which change to keep, as this requires human judgment about the intent behind each change. Conflicts commonly arise during merge operations (`git merge`), rebasing (`git rebase`), cherry-picking, or when applying stashed changes.
-
-When Git encounters a conflict, it modifies the affected files by inserting special conflict markers (<<<<<<<, =======, >>>>>>>) that surround the competing changes from both branches. The content between <<<<<<< and ======= represents changes from the branch you're currently on (often called "ours"), while content between ======= and >>>>>>> shows changes from the branch you're trying to merge (often called "theirs"). These markers help you identify exactly where and what the conflicting changes are.
-
-To resolve conflicts, you must manually edit the conflicted files to select which changes to retain (or create a combined version that incorporates both), remove all conflict markers, stage the resolved files with `git add`, and complete the operation with `git commit`. For more complex conflicts, tools like `git mergetool` or IDE integrations (in VS Code, IntelliJ, etc.) provide visual three-way diff views that make it easier to understand and resolve conflicts. In DevOps environments, teams often establish clear conflict resolution protocols and may designate specific team members responsible for resolving conflicts in critical areas of the codebase.
-
-### **10. What is a pull request in GitHub?**
-
-**Answer:**
-A pull request (PR) is a GitHub feature (called Merge Request in GitLab) that allows developers to propose changes from their branch to another branch, typically the main branch. It's a way to notify team members that a feature or fix is ready for review before merging. Pull requests provide a user interface for discussing the proposed changes, viewing the diff, conducting code reviews, running automated tests, and eventually merging the code. They facilitate collaboration, maintain code quality through peer review, and create a record of the decision-making process around code changes.
-
-The pull request workflow is central to modern DevOps practices, serving as a quality gate before code enters the main codebase. When a developer creates a PR, it initiates a collaborative review process where team members can comment on specific lines, request changes, or approve the modifications. This process helps catch bugs, ensure adherence to coding standards, and share knowledge across the team. Many organizations enforce rules requiring at least one approval before merging, establishing PR reviews as a critical quality control mechanism.
-
-Pull requests also serve as integration points for automated CI/CD processes. When a PR is created or updated, it typically triggers automated builds, unit tests, integration tests, and other quality checks. Status indicators on the PR show whether these checks passed or failed, providing immediate feedback to developers and reviewers. This tight integration between version control, code review, and automation exemplifies the DevOps principle of fast feedback loops. Additionally, PRs create documentation of changes and decisions that become valuable historical context, helping teams understand why certain implementation choices were made.
-
-### **11. What is Git rebase and how is it different from merge?**
-
-**Answer:**
-Git rebase is a command that integrates changes from one branch onto another by moving or "replaying" commits to a new base commit. Unlike merging, which creates a new commit that combines changes from both branches (preserving history as it happened), rebasing rewrites commit history by creating new commits for each original commit in the branch. Rebasing results in a linear, cleaner history without merge commits, but alters the commit history.
-
-From a technical perspective, when you run `git rebase target_branch`, Git identifies the common ancestor between your current branch and the target branch, temporarily stores your branch's changes as a series of patches, moves your branch pointer to the latest commit of the target branch, and then sequentially applies each stored patch. This process effectively makes it look as if you had started your work from the current state of the target branch instead of the common ancestor.
-
-The key difference between merge and rebase lies in how history is preserved. Merging maintains a complete and accurate history of what happened, including parallel development paths, with explicit merge commits showing where branches were integrated. Rebase, on the other hand, creates a streamlined, linear history that may be easier to follow but doesn't represent the actual sequence of development work. This distinction has important implications for team workflows.
-
-In DevOps practices, rebasing is generally used for cleaning up local commits before sharing them publicly, maintaining clean feature branches by incorporating the latest main branch changes, or preparing a pull request for a cleaner review experience. However, rebasing public/shared branches is discouraged as it can cause synchronization problems for other developers. The golden rule is: "Never rebase commits that have been pushed to a public repository and might be used by others."
-
-### **12. What is the purpose of .gitignore file?**
-
-**Answer:**
-The .gitignore file specifies intentionally untracked files that Git should ignore, such as build artifacts, dependencies, environment configurations, temporary files, or sensitive information. These files are typically not relevant to other users or are environment-specific. By properly configuring .gitignore, you prevent cluttering your repository with unnecessary files, reduce the risk of committing sensitive information, decrease repository size, and avoid merge conflicts on generated files.
-
-The .gitignore file uses pattern matching to determine which files to exclude from Git tracking. Each line in the file represents a pattern, with support for wildcards (*, ?, []), directory-specific patterns (ending with /), negation (starting with !), and comments (starting with #). For example, "*.log" ignores all log files, "node_modules/" ignores the entire node_modules directory, and "!important.log" ensures a specific log file is tracked despite other log files being ignored.
-
-Patterns are matched relative to the location of the .gitignore file, which can be placed in the repository root or in subdirectories for more granular control. When multiple .gitignore files exist in different directories, each applies to files in its directory and subdirectories. Git also reads patterns from .git/info/exclude (repository-specific but not shared) and a global gitignore file configured in Git settings.
-
-In DevOps workflows, well-maintained .gitignore files are crucial for keeping repositories clean and preventing accidental commits of sensitive information like API keys, credentials, or configuration files with environment-specific settings. Many frameworks and languages have standard .gitignore templates available to quickly set up appropriate exclusions for common development environments. Tools like gitignore.io can generate appropriate .gitignore files based on your development stack.
-
-### **13. What are Git hooks?**
-
-**Answer:**
-Git hooks are scripts that Git executes before or after events such as commit, push, and merge. They allow you to customize Git's behavior and automate tasks at specific points in the Git workflow. Client-side hooks (pre-commit, prepare-commit-msg, post-commit, etc.) run on your local machine, while server-side hooks (pre-receive, post-receive, etc.) run on the Git server.
-
-Technically, hooks are executable scripts stored in the .git/hooks directory of a Git repository, with filenames corresponding to the events they handle. Each Git repository comes with sample hooks (with .sample extension) that you can rename and modify to activate them. Hooks can be written in any scripting language as long as they're executable and follow the expected input/output conventions for each hook type. If a hook script exits with a non-zero status, the Git operation is typically aborted.
-
-Client-side hooks like pre-commit run before the commit is finalized, allowing you to validate changes, enforce code standards, or run tests. Other client hooks include post-commit (runs after commit completion), prepare-commit-msg (edits commit message template), commit-msg (validates commit messages), and pre-push (runs before pushing). Server-side hooks like pre-receive examine all pushed commits before accepting them, while post-receive can trigger deployment processes after changes are accepted.
-
-In DevOps environments, hooks provide powerful integration points for quality assurance and automation. Common uses include enforcing coding standards with linters, running tests before commits, validating commit messages against conventions, preventing sensitive information from being committed, updating issue trackers, and triggering CI/CD pipelines after pushes. While client-side hooks enhance individual developer workflows, server-side hooks ensure team-wide policy enforcement regardless of client configuration.
-
-### **14. What is Git cherry-pick?**
-
-**Answer:**
-Git cherry-pick is a command that allows you to apply a specific commit from one branch to another. It takes the changes introduced by an existing commit and creates a new commit with those same changes on your current branch. This powerful and precise operation enables you to selectively transfer specific changes between branches without bringing along other unrelated changes that might exist in the source branch.
-
-When you execute `git cherry-pick <commit-hash>`, Git identifies the changes introduced in the specified commit, applies those exact changes to your current branch, and creates a new commit with the same message (which you can modify). The new commit will have a different SHA-1 hash from the original, even if the changes are identical, because it has a different parent commit and possibly a different timestamp and author.
-
-Cherry-picking becomes particularly valuable in several scenarios: applying an urgent bug fix from a feature branch directly to the main branch without merging the entire feature; backporting specific changes to maintenance branches for older releases; selectively pulling in specific features from an experimental branch; or recovering specific commits from a branch that won't be merged. It can also help recover changes when a branch strategy has gone wrong or when dealing with complex merge conflicts.
-
-In DevOps workflows, cherry-picking enables more flexible release management by allowing teams to selectively promote specific changes between environments or branches representing different release stages. However, it should be used thoughtfully, as excessive cherry-picking between branches can lead to duplicate changes, confusion about where features originated, and potential merge conflicts later on. Some teams follow the practice of noting in the commit message when a change has been cherry-picked to maintain clarity about code propagation through branches.
-
-### **15. What are Git tags and what are they used for?**
-
-**Answer:**
-Git tags are references that point to specific points in Git history, used to mark important points like release versions (v1.0, v2.0). Unlike branches, tags don't move as new commits are created—they remain fixed at the same commit unless explicitly modified with force. Tags effectively serve as permanent bookmarks in your repository history, creating human-readable names for specific commits that have special significance.
-
-Git supports two types of tags: lightweight tags are simple pointers to commits (similar to branches but don't move), while annotated tags (created with `git tag -a`) are stored as full objects in the Git database and contain additional metadata including the tagger's name, email, date, a tagging message, and an optional GPG signature for verification. Annotated tags are recommended for releases and any tag that will be publicly shared.
-
-Tags are primarily used to mark release points in the codebase (e.g., v1.2.3), creating stable references to the exact code state at the time of release. This makes it easy to check out the code as it existed for any particular version, which is invaluable for bug reproduction, supporting older releases, or comparing changes between releases. Unlike commit hashes, tags provide meaningful, memorable names that follow versioning conventions.
-
-In DevOps workflows, tags often serve as triggers for CI/CD processes, especially for release automation. When a new version tag is pushed to the repository, it can automatically initiate build, test, and deployment processes specific to releases. Many deployment systems are configured to watch for new tags matching certain patterns (like "v*") to identify release candidates. Tag signatures also provide a mechanism for verifying the authenticity of released code, an important consideration for security-sensitive applications.
-
-### **16. What is the difference between `git fetch` and `git pull`?**
-
-**Answer:**
-`git fetch` and `git pull` both retrieve changes from a remote repository, but differ in what they do with those changes. `git fetch` only downloads new data from the remote repository but doesn't integrate it into your working files - it updates your remote-tracking branches. This allows you to review changes before merging. `git pull`, on the other hand, is essentially a `git fetch` followed by a `git merge` - it downloads changes and immediately merges them into your current branch.
-
-When you run `git fetch`, Git communicates with the specified remote repository and downloads all commits, branches, and tags that exist in the remote but not in your local repository. It updates your remote-tracking branches (like origin/master) but doesn't modify your local branches or working directory. This gives you the opportunity to inspect the changes using commands like `git log --oneline master..origin/master` to see what's different, or `git diff master origin/master` to examine the actual changes before deciding how to integrate them.
-
-In contrast, `git pull` performs this fetch operation and then immediately tries to integrate the changes into your current branch. By default, it uses a merge strategy, though you can configure it to use rebase instead with `git pull --rebase`. The integration happens automatically without giving you a chance to review the changes first, which can sometimes lead to unexpected merge conflicts or unintended changes to your working files.
-
-From a DevOps perspective, choosing between these commands often depends on the context and workflow. `fetch` is generally safer and more deliberate, giving you control over when and how integration happens, making it valuable in situations where you want to inspect changes before integrating. `pull` is more convenient for routine updates when you're confident about integrating the latest changes immediately, such as when working in a team with good communication about the state of the shared repository. Many DevOps professionals develop the habit of using `fetch` followed by explicit merge or rebase commands to maintain more control over their workflow.
-
-### **17. How do you undo the last commit in Git?**
-
-**Answer:**
-To undo the last commit in Git while keeping the changes in your working directory, use `git reset --soft HEAD~1`. This moves the branch pointer back one commit but leaves your changes staged. If you want to undo both the commit and staging, use `git reset HEAD~1` (mixed reset). To completely discard the commit and all changes, use `git reset --hard HEAD~1`, but be careful as this permanently deletes work. If you've already pushed the commit, consider `git revert HEAD` instead, which creates a new commit that undoes the previous commit's changes, making it safer for shared repositories.
-
-Understanding the mechanics of these commands helps choose the right approach. `HEAD~1` refers to the commit before the current HEAD, and the reset command moves the branch pointer to that commit. The difference lies in what happens to your working directory and staging area: `--soft` preserves both staged and working directory changes, `--mixed` (the default) preserves working directory changes but unstages everything, and `--hard` discards all changes, effectively making your working directory match the target commit exactly.
-
-For commits that have already been shared with others (pushed to a remote repository), using `git revert` is strongly recommended over reset. While reset changes history by moving the branch pointer backward, revert adds a new commit that applies the inverse of the targeted commit's changes. This approach preserves history and avoids the complications that arise when you rewrite history that others have already based their work on.
-
-In DevOps workflows, these operations require careful consideration of team impact. Undoing commits on shared branches can disrupt CI/CD pipelines and other team members' work, especially with force pushes after history rewriting. Many organizations implement branch protection rules that prevent force pushes to important branches, making revert the only viable option for correcting mistakes in production code. Having a clear understanding of these different approaches to undoing commits is essential for maintaining repository integrity while effectively addressing errors.
-
-### **18. What is Git stash and when would you use it?**
-
-**Answer:**
-Git stash temporarily shelves (or stashes) changes you've made to your working directory so you can work on something else, then come back and reapply the changes later. It's particularly useful when you need to switch branches but aren't ready to commit your current work, want to pull changes without causing conflicts with your local modifications, or need to put aside work temporarily to fix an urgent bug.
-
-When you run `git stash`, Git takes all modified tracked files and staged changes, saves them on a stack of unfinished changes, and then reverts the changes in your working copy to match the HEAD commit. This gives you a clean working directory without losing your in-progress work. Each stash is stored as a unique object that can be referenced later. By default, Git stash only stores tracked files that have been modified and staged changes, but you can include untracked files with `git stash -u` or even ignored files with `git stash -a`.
-
-The stash functionality provides several commands for managing stashed changes: `git stash list` shows all stashes in your stack, `git stash apply` reapplies the most recent stash while keeping it in the stash list, `git stash pop` reapplies and removes the stash, `git stash drop` removes a stash without applying it, and `git stash show` displays a summary of changes in a stash. You can also create multiple stashes and reference them individually (e.g., `git stash apply stash@{2}`).
-
-In DevOps workflows, stashing facilitates context switching without cluttering the commit history with incomplete work. For example, when you're working on a feature and need to switch to fix a production issue, stashing lets you set aside your feature work cleanly. Stashing can also help when collaborating with CI/CD systems—if your pipeline fails due to conflicts with remote changes, you can stash your work, pull the latest changes, and then reapply your work to resolve conflicts locally before pushing again.
-
-### **19. What is the difference between `git reset` and `git revert`?**
-
-**Answer:**
-`git reset` and `git revert` both undo changes, but in different ways. `git reset` moves the branch pointer to a previous commit, effectively removing commits from history. It can keep the changes in the working directory (--soft), unstage them (--mixed), or discard them entirely (--hard). `git revert`, however, creates a new commit that undoes the changes made by a previous commit, preserving the original history.
-
-The fundamental difference lies in how they handle history. `git reset` is a "history-rewriting" command that directly moves the branch pointer to an earlier commit, making it appear as though intermediate commits never happened. The `--soft` flag maintains the changed files in your staging area, `--mixed` (the default) keeps the changes but unstages them, and `--hard` completely discards all changes, making your working directory match the target commit exactly. This approach effectively erases commits from the visible history of your branch.
-
-Conversely, `git revert` is a "forward-moving" operation that acknowledges the history of your repository while undoing specific changes. When you run `git revert <commit>`, Git creates a new commit that applies the exact opposite changes introduced by the specified commit. This approach preserves a complete record of what happened, showing both the original change and its reversal in the commit history, maintaining the integrity of the historical record.
-
-The choice between these commands has important implications for team workflows. Reset is generally appropriate only for local branches that haven't been shared, as changing history can cause significant problems for other developers who have based work on those commits. Revert is the preferred approach for shared branches, as it doesn't disrupt existing history that others may depend on. In DevOps environments with CI/CD pipelines, reverting changes maintains a clear audit trail of what happened and when, which can be crucial for debugging production issues or maintaining compliance requirements that mandate complete history preservation.
-
-### **20. What is a detached HEAD state in Git and how can you recover from it?**
-
-**Answer:**
-A detached HEAD state occurs when you check out a specific commit, tag, or remote branch instead of a local branch. In this state, HEAD points directly to a commit rather than a branch reference. While you can make changes and create commits, these commits won't belong to any branch and may be lost when you switch to a different branch.
-
-From a technical perspective, Git normally maintains a reference called HEAD that points to the current branch reference (stored in .git/refs/heads/branch-name), which in turn points to a commit. In a detached HEAD state, HEAD points directly to a commit hash rather than to a branch reference. This happens when you use commands like `git checkout <commit-hash>`, `git checkout <tag>`, or when looking at historical states with commands like `git checkout HEAD~3`.
-
-The detached HEAD state itself isn't problematic—it's useful for examining old code versions or testing changes without affecting any branch. However, it becomes an issue when you make new commits in this state, as these commits aren't anchored to any branch and may become "orphaned" and eventually garbage-collected if you switch away without creating a reference to them. Git warns you when entering a detached HEAD state to make this risk clear.
-
-To recover from a detached HEAD state, you have several options: 1) Create a new branch at your current position using `git branch new-branch-name` followed by `git checkout new-branch-name` (or in one step with `git checkout -b new-branch-name`); 2) If you've already switched away and lost the commits, use `git reflog` to find the lost commit hashes and then create a branch from one of them with `git branch recover-branch <commit-hash>`; 3) If you didn't make any commits in the detached HEAD state, simply check out an existing branch with `git checkout branch-name` to return to normal operation. These recovery options ensure your work isn't lost due to Git's garbage collection process.
-
-## **Intermediate Level (21-40 Questions)**
-
-### **21. Explain the concept of Git submodules.**
-
-**Answer:**
-Git submodules allow you to include one Git repository as a subdirectory within another repository, enabling you to keep a separate Git repository as a dependency while still tracking which version you're using. Each submodule maintains its own commits, history, and tracking, making it useful for incorporating third-party libraries or splitting large projects into manageable components.
-
-From a structural perspective, a submodule is a subdirectory in your repository that contains a complete Git repository of its own. When you add a submodule with `git submodule add [url] [path]`, Git creates a .gitmodules file that maps the submodule's path to its remote repository URL, records the submodule's current commit in the parent repository, and clones the submodule's repository into the specified path. The parent repository doesn't track the submodule's files directly—it only tracks which commit of the submodule is currently being used.
-
-Managing submodules requires understanding several commands: `git submodule init` initializes the submodules listed in .gitmodules, `git submodule update` fetches the specified commits for initialized submodules, `git submodule update --remote` updates submodules to their latest remote versions, and `git submodule foreach` executes commands in each submodule. When cloning a repository containing submodules, you need to use `git clone --recursive` or run `git submodule update --init --recursive` after a regular clone.
-
-In DevOps workflows, submodules can help manage complex dependencies between projects, especially when components need their own version history and release cycles. However, they introduce complexity that can be challenging for team members unfamiliar with submodule operations. Common issues include forgetting to initialize or update submodules after cloning, accidentally committing a changed submodule reference, or difficulties merging when submodule references have changed. For these reasons, some teams prefer alternatives like Git subtrees, package managers, or monorepos for managing dependencies, each with their own tradeoffs.
-
-### **22. What is Git bisect and how is it used for debugging?**
-
-**Answer:**
-Git bisect is a powerful debugging tool that uses binary search to find which commit introduced a bug. You start by marking a known good commit and a known bad commit with `git bisect start bad-commit good-commit`. Git then checks out commits between these points, and you test each one and tell Git whether it's good or bad using `git bisect good` or `git bisect bad`. This process continues, efficiently narrowing down the problematic commit. You can also automate this with `git bisect run [test-script]`. Once the faulty commit is identified, you can examine it to understand what caused the issue, then exit bisect mode with `git bisect reset`.
-
-### **23. What is the difference between merging and rebasing in Git?**
-
-**Answer:**
-Merging and rebasing are two approaches to integrating changes from one branch into another. Merging creates a new "merge commit" that has two parent commits, preserving the complete history but potentially making it complex. It's non-destructive and safe for public branches. Rebasing, on the other hand, reapplies your commits on top of the target branch, creating a linear history by essentially rewriting commits. This results in a cleaner history but should be avoided on shared branches as it changes commit history. The choice between them depends on your team's workflow and whether you prioritize a complete historical record (merge) or a clean, linear history (rebase).
-
-### **24. How do you use Git for handling large binary files?**
-
-**Answer:**
-Git struggles with large binary files because it stores every version of every file, causing repository bloat. The recommended approach is using Git LFS (Large File Storage), an extension that replaces large files with text pointers while storing the actual content on a remote server. Install Git LFS, then use `git lfs track "*.extension"` to specify file types to manage. Another option is git-annex, which similarly manages content separately from Git. For one-off situations, you can exclude binaries using .gitignore. Whatever solution you choose, it's important to address binary file management early in a project to prevent repository bloat that's difficult to fix later.
-
-### **25. What is a Git workflow? Explain different types of Git workflows.**
-
-**Answer:**
-A Git workflow is a recommendation for how to use Git to accomplish work in a consistent and productive manner. Common workflows include: 1) **Feature Branch Workflow** - all feature development in dedicated branches instead of master, enabling pull requests; 2) **Gitflow** - strict branching model with dedicated branches for features, releases, and hotfixes; 3) **Forking Workflow** - each developer has their own server-side repository, common in open source; 4) **Centralized Workflow** - similar to SVN with a single main branch; and 5) **Trunk-Based Development** - developers commit directly to master or short-lived feature branches, favoring continuous integration. The best workflow depends on team size, project requirements, and release frequency.
-
-### **26. How do you squash multiple commits into one?**
-
-**Answer:**
-Squashing multiple commits into one consolidates a series of changes into a single, cohesive commit. The most common method is using interactive rebase: `git rebase -i HEAD~n` where `n` is the number of commits to include. This opens an editor where you can mark commits to squash by changing "pick" to "squash" or "s" for all but the first commit. Alternatively, you can use `git reset --soft HEAD~n` followed by `git commit` to create a new commit containing all changes. When working with pull requests, many platforms offer a "Squash and merge" option. Squashing is useful for cleaning history before merging feature branches, but should generally be avoided on shared branches as it rewrites history.
-
-### **27. What are some best practices for writing commit messages?**
-
-**Answer:**
-Effective commit messages follow several best practices: 1) Use a concise, descriptive subject line (50 chars or less) that completes the sentence "This commit will..."; 2) Separate the subject from the body with a blank line; 3) Use the body to explain what and why, not how (code shows how); 4) Keep lines in the body to 72 characters or less; 5) Use imperative mood in the subject line (e.g., "Fix bug" not "Fixed bug"); 6) Reference issue numbers if applicable; 7) Consider using a consistent format or conventional commits standard (e.g., "feat:", "fix:", "docs:"); 8) Avoid vague messages like "bug fix" or "update"; and 9) Separate logical changes into different commits with appropriate messages.
-
-### **28. What is Git reflog and how is it useful?**
-
-**Answer:**
-Git reflog (reference log) is a mechanism that records when the tips of branches and other references were updated in your local repository. Unlike the commit history shown by `git log`, reflog records all updates to the repository, including commits, resets, merges, rebases, and checkout operations. This makes it invaluable for recovering lost commits after operations like `git reset --hard`, finding commit hashes that are no longer referenced by any branch, or understanding how your repository reached its current state. Access it with `git reflog` and recover lost work with commands like `git checkout HEAD@{2}` or `git branch recover-branch HEAD@{4}` to reference specific reflog entries.
-
-### **29. How does Git handle line endings across different operating systems?**
-
-**Answer:**
-Git handles line endings through its `core.autocrlf` configuration setting. Windows uses CRLF (carriage return + line feed) while Unix-based systems use LF (line feed) for line endings. This can cause issues in cross-platform development. Git offers three main settings: 1) `true` - converts LF to CRLF when checking out code and CRLF to LF when committing (ideal for Windows); 2) `input` - converts CRLF to LF when committing but makes no changes when checking out (good for Unix/Mac); 3) `false` - no conversions (requires manual management).
-
-Line ending inconsistencies can cause significant problems in cross-platform development teams. When text files appear entirely changed because of line ending conversions, it creates misleading diffs, complicates merges, and triggers unnecessary conflicts. Git's line ending conversion features address this issue by normalizing line endings as files move between the repository and working directory, making it possible for developers on different platforms to collaborate seamlessly.
-
-Configuration of line ending behavior can be done globally with `git config --global core.autocrlf [setting]` or per-repository with the same command minus the `--global` flag. For more precise control, Git supports a `.gitattributes` file which can specify line ending behavior for specific file patterns, overriding the global `core.autocrlf` setting. For example, adding `*.txt text=auto` to `.gitattributes` tells Git to automatically handle line endings for text files, while `*.bat text eol=crlf` forces Windows-style endings for batch files regardless of platform.
-
-In DevOps workflows, the `.gitattributes` approach is generally preferred because it's committed to the repository and ensures consistent behavior across all environments, including CI/CD systems. This file-based approach eliminates issues that arise when different team members have different Git configurations. A well-configured `.gitattributes` file includes patterns for all text file types in the project, explicitly marks binary files with `binary`, and specifies required line endings for platform-specific scripts. This approach minimizes cross-platform friction and avoids line ending issues in automated build and deployment processes.
-
-### **30. What is Git blame and how is it used?**
-
-**Answer:**
-Git blame (or `git annotate`) is a command that shows which user last modified each line of a file, along with the commit hash and timestamp. The basic usage is `git blame filename`, which displays this information for every line. It's primarily used to understand the context behind code changes, determine who introduced a specific change or bug, and identify when a particular feature was implemented.
-
-The output of `git blame` shows a line-by-line breakdown of the file, with each line prefixed by information about its last modification: the partial commit hash, author name, timestamp, and line number. This information creates a complete picture of how the file evolved to its current state, line by line. Beyond the basic usage, Git blame offers several useful options to tailor its output to specific needs: `-L start,end` limits analysis to specific line ranges, `-w` ignores whitespace changes that would otherwise obscure meaningful modifications, `-C` detects lines moved or copied from other files, and `-M` follows content moved within the same file.
-
-For complex files with long histories, combining blame with other commands provides more insights. For example, `git blame -w filename | grep username` finds all lines last modified by a specific user. You can also use `git blame commit_hash^ -- filename` to see blame information as it existed before a particular commit, which helps identify what changes were made in that specific commit compared to the previous state.
-
-In DevOps and collaborative development environments, blame is a valuable tool for knowledge discovery and troubleshooting. When encountering unfamiliar or problematic code, blame helps identify who wrote it and when, facilitating direct communication with the right team members. During incident response, blame helps trace when a bug was introduced, supporting root cause analysis. Code reviewers use blame to understand whether modifications align with the original code's intent and to ensure appropriate test coverage for changes. However, teams should use blame constructively for understanding rather than assigning fault—its primary value is in providing historical context for better decision-making about the codebase.
-
-### **31. How do you handle credentials and authentication in Git?**
-
-**Answer:**
-Git offers several ways to handle authentication: 1) SSH keys - generate with `ssh-keygen` and add to your Git provider for password-less authentication; 2) Credential helpers - store passwords temporarily in memory (`cache`) or permanently on disk (`store`); 3) Git Credential Manager - robust helper with secure storage, 2FA support, and integration with platform authentication; 4) Personal Access Tokens - alternative to passwords for HTTPS authentication; 5) .netrc file - store credentials in plaintext (not recommended). Best practices include using SSH keys where possible, enabling two-factor authentication, using credential helpers with appropriate timeouts, rotating credentials regularly, and never committing credentials to repositories. Different approaches are suitable for different environments and security requirements.
-
-### **32. What is the difference between 'git merge --squash' and a regular merge?**
-
-**Answer:**
-A regular `git merge` integrates all commits from the source branch into the target branch, preserving the complete commit history and creating a merge commit that has two parent commits. In contrast, `git merge --squash` takes all changes from the source branch, combines them into a single set of changes, and stages them without actually committing. This allows you to create a single commit representing all changes from the source branch. The key differences are: 1) squash merge loses the individual commit history; 2) no merge commit is created automatically; 3) the relationship between branches isn't recorded; and 4) you must manually commit the staged changes. Squash merges are useful when you want a clean history but can make it harder to track the origin of changes.
-
-### **33. How do you find a bug using Git?**
-
-**Answer:**
-Finding bugs with Git involves several techniques: 1) **Git blame** (`git blame file.py`) identifies who last modified each line and when; 2) **Git bisect** performs binary search through commit history to find which commit introduced a bug; 3) **Git diff** compares different versions to see what changed (`git diff HEAD~5 file.py`); 4) **Git log** with path filtering shows commits affecting specific files (`git log -p file.py`); 5) **Git pickaxe** (`git log -S"buggy text"`) finds commits that add or remove specific text; 6) **Git grep** searches codebase for patterns across history; and 7) **Branch comparison** (`git diff branch1..branch2`) shows differences between branches. These tools help pinpoint when and how bugs were introduced, making troubleshooting more efficient.
-
-### **34. What is Git LFS and when would you use it?**
-
-**Answer:**
-Git LFS (Large File Storage) is an extension that replaces large files in your repository with text pointers while storing the file contents on a remote server. You would use it when working with large binary files like graphics, videos, datasets, or compiled binaries that would otherwise bloat your repository and slow down cloning and fetching. After installing Git LFS, you track file types with `git lfs track "*.psd"` (which creates entries in .gitattributes), then use Git normally. Benefits include faster cloning (as large files are downloaded only when needed), smaller repository size, and better handling of binary files. However, it requires server support, adds complexity, and may incur storage costs on some hosting platforms.
-
-### **35. How do you clean up local branches after they've been merged?**
-
-**Answer:**
-To clean up local branches after merging, you can use several approaches: 1) List merged branches with `git branch --merged` to identify candidates for deletion; 2) Delete a single branch with `git branch -d branch-name` (safe, as it prevents deletion of unmerged branches); 3) Force delete with `git branch -D branch-name` (if needed for unmerged branches); 4) For bulk cleanup, use `git branch --merged | grep -v "\*" | xargs git branch -d` to delete all merged branches except the current one; 5) Update remote-tracking branches with `git fetch --prune` to remove references to deleted remote branches. Regular cleanup keeps your repository organized and prevents confusion from outdated branches. Be cautious with automation to avoid accidentally deleting important branches.
-
-### **36. What is the difference between a fast-forward merge and a 3-way merge?**
-
-**Answer:**
-A fast-forward merge occurs when the target branch is a direct ancestor of the source branch, meaning there are no divergent changes. Git simply moves the branch pointer forward to the latest commit, resulting in a linear history with no merge commit. A 3-way merge is needed when both branches have diverged from a common ancestor and have independent changes. Git creates a new "merge commit" with two parents, preserving both branches' history. Fast-forward merges are simpler and maintain linear history but don't record when a feature was merged. You can force a merge commit even for fast-forward scenarios with `git merge --no-ff`, which some teams prefer for better feature branch visibility.
-
-### **37. How do you use Git to find which commit introduced a specific line of code?**
-
-**Answer:**
-To find which commit introduced a specific line of code, you can use `git blame` or `git log`. With `git blame filename`, you see who last modified each line in a file, along with commit hashes and timestamps. For more detailed history of a specific line or pattern, use `git log -L start,end:filename` to trace line changes through history, or `git log -S "specific code"` (pickaxe) to find commits that added or removed that text. For complex cases, combine with `git show` to view specific commits in detail. These techniques help determine when specific features were implemented, why certain code exists, or which changes might have introduced bugs.
-
-### **38. What are Git worktrees and how are they useful?**
-
-**Answer:**
-Git worktrees allow you to check out multiple branches simultaneously in separate directories from a single repository. Created with `git worktree add ../path branch-name`, they share the same Git database but have independent working directories. This is useful for: 1) Working on multiple features without stashing/switching; 2) Building or testing different branches simultaneously; 3) Making hotfixes while continuing development; 4) Comparing implementations across branches; and 5) Reviewing pull requests with local changes. Unlike cloning, worktrees share objects and references, saving disk space and keeping everything in sync. They're particularly valuable in CI/CD pipelines and when context-switching between tasks without interrupting workflow.
-
-### **39. How do you fix a broken Git repository?**
-
-**Answer:**
-Fixing a broken Git repository depends on the specific issue, but common approaches include: 1) For corruption, run `git fsck` to identify problems and `git gc` to clean up; 2) For broken references, check and fix `.git/HEAD` and files in `.git/refs/`; 3) For interrupted operations, check `.git/index.lock` and other lock files that may need manual removal; 4) For damaged objects, try `git fetch` to redownload from remote or restore from backup; 5) In extreme cases, clone a fresh copy and manually recover your changes; 6) For damaged git hooks, inspect and fix scripts in `.git/hooks/`; and 7) When all else fails, use `git bundle` from another copy to transport repository data. Prevention through regular backups and avoiding force-pushes is always preferable to recovery.
-
-### **40. How do you work with Git submodules effectively?**
-
-**Answer:**
-Working effectively with Git submodules requires understanding key commands and practices: 1) Add submodules with `git submodule add <repo-url> <path>`; 2) Clone repositories containing submodules with `git clone --recursive` or initialize later with `git submodule update --init --recursive`; 3) Update submodules to their latest commits with `git submodule update --remote`; 4) Make changes in submodules by entering their directories and using normal Git commands, then committing in both the submodule and parent repository; 5) Track specific branches with `git submodule set-branch -b branch-name path/to/submodule`; 6) Document your submodule usage and management approach for the team; and 7) Consider alternatives like Git subtrees or package managers if submodules cause workflow friction.
-
-## **Advanced Level (41-60 Questions)**
-
-### **41. What are Git internal objects and how do they work?**
-
-**Answer:**
-Git's internal storage consists of four main object types, each identified by a SHA-1 hash: 1) **Blobs** store file contents, 2) **Trees** represent directories and contain pointers to blobs and other trees, 3) **Commits** point to a tree and include metadata like author, timestamp, and parent commits, and 4) **Tags** are named references to specific commits, often used for releases. These objects form a content-addressable filesystem where the object's hash is determined by its content. All objects are stored in `.git/objects` either as loose objects or packed into pack files for efficiency. References (branches, tags) in `.git/refs` point to commit objects, while HEAD in `.git/HEAD` points to the current branch. This structure enables Git's data integrity, distributed nature, and efficient storage through deduplication.
-
-### **42. How does Git garbage collection work?**
-
-**Answer:**
-Git garbage collection (`git gc`) optimizes repository performance and space by cleaning up unnecessary files and compressing objects. During gc, Git: 1) Packs loose objects into pack files, reducing disk usage through delta compression; 2) Removes unreachable objects (not referenced by any branch, tag, or other reference) after they exceed the expiration period (default 2 weeks, configurable with gc.pruneExpire); 3) Repacks existing packfiles to optimize them further; 4) Updates reference files for efficiency. Git runs limited gc automatically during some operations when thresholds are met, but you can manually run `git gc` for basic collection or `git gc --aggressive` for more thorough optimization. Repositories with frequent changes benefit from occasional manual gc to maintain performance.
-
-### **43. What is the Git object model?**
-
-**Answer:**
-The Git object model is the foundation of Git's design, consisting of four primary object types stored in the repository: 1) **Blobs** contain file data without metadata; 2) **Trees** represent directory structures with references to blobs (files) and other trees (subdirectories); 3) **Commits** point to a specific tree (representing the project state) and include metadata like author, committer, message, and parent commit(s); and 4) **Tags** are named references to specific objects, typically commits, with optional additional metadata. Each object is identified by a SHA-1 hash of its contents, creating a content-addressable store where identical content is stored only once. This immutable, directed acyclic graph (DAG) structure enables Git's data integrity, efficient storage, branching capabilities, and distributed nature.
-
-### **44. How would you recover lost commits in Git?**
-
-**Answer:**
-To recover lost commits in Git, first try `git reflog` which records all reference updates for approximately 30 days (configurable). Identify the lost commit hash and recover it using `git checkout hash` followed by `git branch recovery-branch` to save it. If reflog doesn't help, try `git fsck --lost-found` to find dangling commits, then examine them with `git show`. For commits lost during rebasing, check `git log -g` or temporary refs in `.git/logs/`. If stashing was involved, examine `git stash list` and recover with `git stash apply`. For repositories with remotes, you might find the commits by fetching. As a last resort, search for the commit hash in pack files directly. The key is acting quickly before garbage collection permanently removes unreferenced objects.
-
-### **45. What are Git reflogs and how can you use them for recovery?**
-
-**Answer:**
-Git reflogs track updates to branch tips and other references in your local repository. Unlike the commit history, reflogs record all reference-changing operations (commits, resets, merges, rebases, checkouts) with timestamps, creating a comprehensive local audit trail. Access them with `git reflog` to see HEAD movements or `git reflog show branch-name` for specific branches. Reflogs are invaluable for recovery - when you accidentally reset, rebase, or delete commits, reflogs let you find the previous state using syntax like `HEAD@{2}` (HEAD two moves ago) or `master@{yesterday}`. You can then restore with `git reset --hard HEAD@{2}` or create a new branch with `git branch recovery HEAD@{2}`. Note that reflogs are local only and expire (default 90 days for reachable, 30 days for unreachable entries).
-
-### **46. How would you implement a custom Git command?**
-
-**Answer:**
-Implementing a custom Git command involves creating an executable script named `git-commandname` in your PATH. For example, to create `git awesome`, create an executable script named `git-awesome`. When a user runs `git awesome`, Git forwards to this script. The script can be in any language (bash, Python, etc.) as long as it's executable. Git passes all arguments after the command name to your script, and you can access Git's environment variables and use Git plumbing commands. For team sharing, consider a repository of custom commands or package them as Git aliases in a shared configuration. Custom commands are particularly useful for standardizing workflows, automating common tasks, or implementing organization-specific operations.
-
-### **47. What are the security implications of using Git?**
-
-**Answer:**
-Git security considerations include: 1) **Credential exposure** - avoid storing passwords in code or configs, use SSH keys or credential helpers instead; 2) **History permanence** - sensitive data committed accidentally remains in history (use BFG Repo-Cleaner or git-filter-repo to remove); 3) **Hook vulnerabilities** - malicious hooks can execute arbitrary code, validate them before running; 4) **Git hosting security** - implement proper access controls, 2FA, and regular security audits; 5) **Signed commits** - use GPG signing to verify author identity and prevent spoofing; 6) **Denial of service** - carefully handle repositories with extremely large files or malicious content; and 7) **Supply chain attacks** - verify submodules and external dependencies. Mitigation strategies include pre-commit scanning, regular audits, clear security policies, and education about Git security best practices.
-
-### **48. How does Git handle merges with complex conflicts?**
-
-**Answer:**
-Git handles complex merge conflicts through several mechanisms: 1) It first attempts automatic resolution using its merge strategies (recursive, resolve, octopus, etc.); 2) For unresolvable conflicts, Git marks conflict markers in files (`<<<<<<<`, `=======`, `>>>>>>>`) and leaves them in an unmerged state; 3) It provides merge drivers for specific file types and custom resolution logic; 4) For binary files, Git stores both versions and requires manual resolution. Advanced conflict resolution techniques include using `git mergetool` with visual diff tools, setting specific merge strategies with `git merge -s strategy`, configuring custom merge drivers, using `git checkout --ours/--theirs` for selective resolution, and `git show :1:file :2:file :3:file` to examine common ancestor and both versions. For repeated complex merges, creating a custom merge driver or strategy can be beneficial.
-
-### **49. How would you set up a Git server from scratch?**
-
-**Answer:**
-Setting up a Git server from scratch involves several key steps to create a secure and functional environment for hosting Git repositories. First, install Git on your server. Then create a dedicated user for Git operations and set up SSH access with proper authentication. Configure the server directory structure to store repositories and set appropriate permissions. Initialize bare repositories that will be used for pushing and pulling. Implement access controls using SSH keys or other authentication methods. Optionally, you can install web-based interfaces like Gitea, GitLab, or Gitolite for easier management. Finally, set up backup procedures and monitoring to ensure reliability and security of your Git server.
-
-### **50. How would you implement a custom Git merge strategy?**
-
-**Answer:**
-Implementing a custom Git merge strategy involves understanding Git's merge driver system. First, you'd create a custom merge driver script that handles the merge logic according to your specific requirements. Then register this driver in your project's `.gitattributes` file, specifying which file types it should handle. Configure the driver in your Git configuration using `git config` commands, pointing to your custom script. Your script would receive the ancestor version and both conflicting versions as parameters, and would need to output the resolved version. This approach is useful for specialized merging requirements, such as format-specific merges for data files, custom conflict resolution rules, or domain-specific merge strategies that go beyond Git's built-in capabilities.
-
-### **51. What are Git's data integrity mechanisms and how do they work?**
-
-**Answer:**
-Git's data integrity is primarily ensured through its content-addressable storage system using SHA-1 (or SHA-256 in newer versions) cryptographic hash functions. Every object in Git—commits, trees, blobs—has a unique hash ID generated from its content. This means any change to the content produces a different hash, making corruption immediately detectable. Git's object database stores everything as immutable objects linked by these hashes, creating a cryptographically verifiable chain. Commands like `git fsck` can verify repository integrity by checking these linkages. Additionally, Git's pack files include checksums, and network transfers employ further verification. This comprehensive approach ensures that data corruption, whether accidental or malicious, can be detected, helping maintain the trustworthiness of the entire version history.
-
-### **52. How would you optimize a Git repository with a large history?**
-
-**Answer:**
-Optimizing a Git repository with large history requires several strategies. Start with `git gc --aggressive` to compress objects and reduce repository size. Consider using `git filter-branch` or `git filter-repo` to permanently remove large files or sensitive data from history. Implement Git LFS (Large File Storage) to manage binary files more efficiently. Use shallow clones (`git clone --depth`) or sparse checkouts for developers who don't need the full history. Archive older branches that are no longer active. Break monolithic repositories into smaller, focused repositories using techniques like git submodules or monorepo tools. Set up good `.gitignore` rules to prevent unnecessary files from being committed. Finally, consider using specialized tools like BFG Repo-Cleaner for faster history rewriting than built-in Git commands.
-
-### **53. What is Git's internals architecture and how does it affect performance?**
-
-**Answer:**
-Git's internal architecture is built around a content-addressable filesystem with a persistent map structure. At its core are four object types: blobs (file contents), trees (directory structures), commits (snapshots), and tags (named references). These objects form a directed acyclic graph, where each commit points to a tree and parent commits. Performance is optimized through several mechanisms: pack files compress similar objects together using delta compression; the index acts as a staging area and speeds up operations by caching file information; reference storage enables quick branch and tag lookups; and the object database's design allows for efficient storage and retrieval. This architecture enables Git's distributed nature while maintaining speed, with operations like branching being nearly instantaneous since they only create new references rather than copying files.
-
-### **54. How would you implement a Git-based deployment pipeline with rollback capabilities?**
-
-**Answer:**
-Implementing a Git-based deployment pipeline with rollback capabilities involves several components. First, establish a robust branching strategy (like GitFlow or trunk-based development) with protected production branches. Use Git tags to mark release versions explicitly. Implement a CI/CD system that automatically builds, tests, and deploys code when changes are pushed to specific branches. The deployment process should capture the Git commit hash of each deployment and store it with environment metadata. For rollbacks, create a mechanism that can checkout and deploy previous tagged versions or specific commits. Include a database migration strategy that supports both forward and backward compatibility. Implement feature flags to control feature activation independently of deployment. Finally, create automated smoke tests that verify deployment success and can trigger automatic rollbacks when critical failures are detected.
-
-### **55. How would you implement a custom Git protocol extension?**
-
-**Answer:**
-Implementing a custom Git protocol extension involves understanding Git's client-server interaction mechanisms. Start by studying the Git protocol documentation and existing extensions. Choose between enhancing the Git wire protocol (for transport operations) or creating a plumbing command (for local operations). For wire protocol extensions, implement both client-side and server-side components, using Git's capability negotiation system to ensure compatibility. Register your extension through Git's configuration system. For plumbing commands, create executable scripts following Git's naming conventions (git-yourcommand) and place them in the PATH. Implement proper input/output handling according to Git's conventions. Test extensively with different Git versions to ensure compatibility. Document your extension thoroughly, including installation instructions, configuration options, and examples. Consider submitting well-designed extensions to the Git project for potential inclusion in future releases.
-
-### **56. What are the performance implications of different Git storage backends?**
-
-**Answer:**
-Different Git storage backends have varying performance characteristics that impact repository operations. The default backend uses loose objects for new objects, which are quick to create but inefficient for storage and network transfer. Pack files, created during garbage collection, use delta compression to significantly reduce size but require more CPU for access. Filesystem performance greatly impacts Git operations—ext4, XFS, and APFS generally perform well, while network filesystems like NFS can cause notable slowdowns. Alternative backends like git-annex or git-lfs handle large files by storing content separately from Git's object database, improving performance for repositories with many binaries. Object database alternatives like LMDB or hybrid approaches can offer better performance for specific use cases. The choice of backend should be based on your specific workload, considering factors like repository size, number of objects, file sizes, and common operations.
-
-### **57. How does Git's reference system work and how would you extend it?**
-
-**Answer:**
-Git's reference system manages pointers to specific commits in the repository. References are stored in `.git/refs/` as simple text files containing commit hashes, or in the packed-refs file for efficiency. The main reference types include heads (branches), tags, remotes, and the special HEAD reference. This system enables Git to quickly locate commits without searching the entire object database. To extend this system, you could implement custom reference namespaces beyond the standard ones, create reference hooks that trigger actions when references change, or develop specialized reference-based tools. You could also implement alternative storage backends for references, custom reference policies, or extended metadata for references. Extensions should follow Git's principles of simplicity and performance while maintaining backward compatibility with standard Git clients.
-
-### **58. What are the security vulnerabilities in Git and how would you mitigate them?**
-
-**Answer:**
-Git has several potential security vulnerabilities that require mitigation. Repository integrity risks include history rewriting attacks, which can be mitigated through signed commits and protected branches. Malicious hooks in cloned repositories could execute arbitrary code; users should review hooks before executing Git commands in untrusted repositories. Large repositories can be exploited for DoS attacks through pathological commits or objects; implement server-side resource limits and verification. Sensitive data accidentally committed can be exposed forever due to Git's immutable history; use tools like git-filter-repo to permanently remove such data and implement pre-commit hooks to prevent leaks. Authentication vulnerabilities exist in credential handling; use credential helpers, SSH keys with passphrases, and regular rotation. For Git servers, implement proper access controls, HTTPS instead of plain HTTP, rate limiting, and regular security updates. Automated scanning of repositories for secrets and security vulnerabilities should be part of your workflow.
-
-### **59. How would you implement a distributed Git workflow for a globally distributed team?**
-
-**Answer:**
-Implementing a Git workflow for a globally distributed team requires addressing collaboration, performance, and coordination challenges. Choose a workflow model that minimizes merge conflicts—trunk-based development with short-lived feature branches or a modified GitFlow approach often works well. Implement thorough code review processes using pull/merge requests with clear templates and automated checks. Set up distributed CI/CD infrastructure in multiple regions to reduce latency. Use Git LFS for large binary assets to improve clone and fetch times across regions. Establish clear documentation for branching conventions, commit message formats, and workflow procedures. Implement asynchronous communication channels alongside Git tooling. Consider using a federated or multi-master Git setup with regional mirrors to improve performance. Enforce consistent Git configurations across the team to prevent issues with line endings or file permissions. Finally, implement automated metrics collection to identify and address workflow bottlenecks as they emerge.
-
-### **60. How would you design a custom version control system that improves upon Git?**
-
-**Answer:**
-Designing a version control system that improves upon Git would address several key limitations while preserving Git's core strengths. Improvements might include a more intuitive user interface with clearer command naming and better error messages. The system would have built-in large file handling without requiring extensions like Git LFS. It would support partial clones and sparse checkouts as first-class features for better monorepo performance. Better handling of binary files with specialized diff and merge capabilities would be integrated. The system would use a more secure cryptographic hash function (SHA-256 or better) by default. It would have improved rename and move detection and history tracking. Sub-repository handling would be more seamless than Git submodules. The permission and access control model would be more granular. The system would support distributed workflows while offering better performance for centralized use cases. Database schema migrations would be handled natively. While maintaining Git's distributed nature and performance, this system would prioritize user experience and modern development workflows.
+Welcome to the **Git & Version Control** master collection containing **150 comprehensive interview questions and detailed answers** covering Git Internals (Object Database, Blobs, Trees, Commits), Advanced Branching & Merging, Interactive Rebase, Cherry-Pick, Bisect, Submodules, Disaster Recovery via Reflog, and GitOps Workflows.
 
 ---
 
-## **📢 Contribute & Stay Updated**  
+## 🟢 **Part 1: Git Internals & Core Mechanics (Questions 1–50)**
 
-💡 **Want to contribute?**  
-We **welcome contributions!** If you have insights, new tools, or improvements, feel free to submit a **pull request**.  
+### **1. What is Git and how does its Directed Acyclic Graph (DAG) architecture work?**
+**Answer:** Git is a distributed version control system that stores project history as an immutable Directed Acyclic Graph (DAG) of cryptographically hashed objects. Unlike delta-based VCS (SVN), Git takes snapshots of the entire project directory tree at each commit, linking child commits back to parent commits via SHA1/SHA256 hashes.
 
-📌 **How to Contribute?**
+### **2. Explain the four core Git Object types in `.git/objects/`.**
+**Answer:**
+1. **Blob:** Stores pure uncompressed file content (data payload) without filename, directory structure, or permissions.
+2. **Tree:** Represents a directory; maps filenames, file permissions (`100644`, `100755`), and directory structures to their corresponding Blob and sub-Tree SHA hashes.
+3. **Commit:** Contains a pointer to the root Tree object, parent commit SHA(s), author/committer metadata with timestamps, and the commit message.
+4. **Annotated Tag:** An independent object pointing to a commit SHA with tagger metadata, timestamp, GPG signature, and tag message.
 
-- Read the **[CONTRIBUTING.md](https://github.com/NotHarshhaa/DevOps-Interview-Questions/blob/master/CONTRIBUTING.md)** guide.  
-- Fix errors, add missing topics, or suggest improvements.  
-- Submit a **pull request** with your updates.  
+### **3. Explain the Three Trees (Three Areas) of Git.**
+**Answer:**
+1. **Working Directory:** The local sandbox files on your physical disk where you actively edit code.
+2. **Staging Area (Index):** A binary file (`.git/index`) caching the exact snapshot prepared for the next commit.
+3. **Repository (`HEAD`):** The immutable object database in `.git/` containing all committed history.
 
-📢 **Stay Updated:**  
-⭐ **Star the repository** to get notified about new updates and additions.  
-💬 **Join discussions** in **[GitHub Issues](https://github.com/NotHarshhaa/DevOps-Interview-Questions/issues)** to suggest improvements.  
+### **4. How does `git add` work under the hood?**
+**Answer:**
+1. Compresses file content with zlib and creates a **Blob object** in `.git/objects/` named after its SHA1/SHA256 hash.
+2. Updates the **Index file** (`.git/index`), mapping the file path to the newly created Blob SHA.
+
+### **5. How does `git commit` work under the hood?**
+**Answer:**
+1. Writes **Tree objects** representing directories recorded in the Index.
+2. Creates a **Commit object** pointing to the top-level root Tree, parent commit SHA, author metadata, and message.
+3. Moves the current branch ref pointer (`.git/refs/heads/<branch>`) forward to point to the new Commit SHA.
+
+### **6. What is `HEAD` in Git and what is a "Detached HEAD"?**
+**Answer:**
+- **`HEAD`:** A symbolic reference pointer (`.git/HEAD`) pointing to the currently checked-out branch ref (e.g., `ref: refs/heads/main`).
+- **Detached `HEAD`:** When `HEAD` points directly to a specific **Commit SHA** rather than a named branch ref. Any new commits created in detached HEAD state are orphaned and will be pruned by garbage collection unless a new branch is created.
+
+### **7. Compare `git merge` vs `git rebase`.**
+**Answer:**
+- **`git merge`:** Creates a non-destructive 3-way merge commit combining two branch histories. Preserves true historical context and chronological timestamps.
+- **`git rebase`:** Replays commits from the current branch on top of the target base branch, rewriting commit SHAs to produce a clean, linear commit history.
+
+### **8. What is a Fast-Forward Merge vs Three-Way Merge (`--no-ff`)?**
+**Answer:**
+- **Fast-Forward Merge:** If the target branch has no new commits since branching, Git simply moves the branch pointer forward without creating a new merge commit.
+- **Three-Way Merge (`--no-ff`):** Explicitly creates a merge commit with two parent commits, preserving visual branch topology.
+
+### **9. What is `git cherry-pick` and how does it work?**
+**Answer:** Applies the exact diff introduced by a specific commit from another branch onto your current branch, creating a brand-new commit with a new SHA and timestamp.
+
+### **10. What is `git revert` vs `git reset`?**
+**Answer:**
+- **`git revert <commit>` (Safe for Public Branches):** Creates a *new* forward commit that applies the exact inverse diff of the target commit, preserving Git history.
+- **`git reset` (Dangerous for Shared Branches):** Moves the branch pointer backward, rewriting history.
+
+### **11. Explain `git reset --soft` vs `--mixed` vs `--hard`.**
+**Answer:**
+- **`--soft`:** Moves branch `HEAD` backward; leaves Staging Area (Index) and Working Directory unchanged (changes remain staged).
+- **`--mixed` (Default):** Moves `HEAD` backward and un-stages changes in the Index; leaves Working Directory files untouched.
+- **`--hard` (Destructive):** Moves `HEAD` backward and completely wipes all changes in both the Index and Working Directory, discarding uncommitted work.
+
+### **12. What is `git reflog` and how is it used for disaster recovery?**
+**Answer:** A local chronological ledger recording every single time `HEAD` moved in your local repository (commits, checkouts, rebases, hard resets).
+- **Recovery:** If an engineer accidentally ran `git reset --hard HEAD~5`, running `git reflog` identifies the previous commit SHA before the reset. Running `git reset --hard HEAD@{1}` restores all lost commits in 1 second.
+
+### **13. What is `git stash` and what are `stash pop` vs `stash apply`?**
+**Answer:** Temporarily shelves uncommitted changes (dirty working tree) onto an internal stack (`stash@{0}`):
+- **`git stash pop`:** Applies stashed changes and removes them from the stash stack.
+- **`git stash apply`:** Applies stashed changes but preserves the entry on the stash stack.
+
+### **14. What is `git bisect` and how does it automate debugging?**
+**Answer:** Uses binary search algorithms to find the exact commit that introduced a regression bug between a known good commit and a known bad commit:
+```bash
+git bisect start
+git bisect bad HEAD
+git bisect good v1.0.0
+# Git checks out middle commit; test and mark 'git bisect good' or 'bad'
+```
+
+### **15. What is `git clean`?**
+**Answer:** Removes untracked files from the working directory (`git clean -fd` removes untracked files and directories).
+
+### **16. What is `.gitignore` and why won't it ignore already tracked files?**
+**Answer:** `.gitignore` specifies untracked files Git should ignore. If a file was already committed to Git history before being added to `.gitignore`, Git continues tracking it. To ignore it, untrack it first: `git rm --cached <file>`.
+
+### **17. What is `git submodule` vs `git subtree`?**
+**Answer:**
+- **`submodule`:** Points to a specific external Git repository commit SHA as an independent nested repo.
+- **`subtree`:** Embeds external repository source code directly into the parent repository tree as standard files.
+
+### **18. What is `git commit --amend`?**
+**Answer:** Combines staged changes with the most recent commit, rewriting its commit message, Tree, and SHA. *Only use on local un-pushed commits.*
+
+### **19. What is `git pull` vs `git fetch`?**
+**Answer:**
+- **`git fetch`:** Downloads remote commits, branches, and tags into your local `.git` repository without modifying working files.
+- **`git pull`:** Executes `git fetch` followed immediately by `git merge FETCH_HEAD` (or `git rebase` if configured).
+
+### **20. What is `git blame`?**
+**Answer:** Annotates each line of a file with the commit hash, author name, and timestamp of the last revision that modified that line.
+
+### **21. What is `git log --graph --oneline --decorate --all`?**
+**Answer:** Displays a visual ASCII graph of branch topologies, merge points, tags, and commits in a compact, readable format.
+
+### **22. What is `git diff` vs `git diff --staged`?**
+**Answer:**
+- **`git diff`:** Shows changes between your Working Directory and the Staging Area (unstaged changes).
+- **`git diff --staged` (or `--cached`):** Shows changes between the Staging Area and your last commit (`HEAD`).
+
+### **23. What is a Git Plumbing vs Porcelain Command?**
+**Answer:**
+- **Porcelain Commands (User-Facing):** High-level commands for daily development (`git add`, `git commit`, `git merge`, `git checkout`).
+- **Plumbing Commands (Low-Level Core):** Low-level commands operating on the raw object database (`git hash-object`, `git cat-file`, `git write-tree`, `git commit-tree`).
+
+### **24. What is `git cat-file`?**
+**Answer:** Plumbing command to inspect raw Git objects in `.git/objects/`:
+- `git cat-file -t <sha>`: Shows object type (`blob`, `tree`, `commit`, `tag`).
+- `git cat-file -p <sha>`: Pretty-prints the uncompressed object content.
+
+### **25. What is `git hash-object`?**
+**Answer:** Computes the SHA1/SHA256 hash of a file payload and optionally writes it to `.git/objects/` as a zlib-compressed blob (`git hash-object -w file.txt`).
+
+### **26. What is a Git Reference (`ref`)?**
+**Answer:** A simple text file located under `.git/refs/` containing a 40-character Commit SHA (e.g., `.git/refs/heads/main` points to the tip commit of `main`).
+
+### **27. What is a Symbolic Reference (`symref`)?**
+**Answer:** A ref file that points to another ref file rather than a raw Commit SHA (e.g., `.git/HEAD` contains `ref: refs/heads/main`).
+
+### **28. What is a Remote-Tracking Branch (`refs/remotes/origin/main`)?**
+**Answer:** A local read-only bookmark recording the state of the branch on the remote server as of the last `git fetch` operation.
+
+### **29. What is `.git/config` Hierarchy?**
+**Answer:** Three-tiered configuration evaluated with increasing precedence:
+1. **System (`/etc/gitconfig`):** Applied to all OS users.
+2. **Global (`~/.gitconfig`):** Applied to all repos of the current user.
+3. **Local (`.git/config`):** Scoped strictly to the current repository.
+
+### **30. What is `git remote` and how do you manage remote upstream mirrors?**
+**Answer:**
+- `git remote add upstream <url>`: Adds a secondary remote repository (used in open-source fork workflows).
+- `git remote -v`: Lists configured remote URLs.
+- `git remote prune origin`: Deletes stale local references to remote branches that were deleted on the server.
+
+### **31. What is `git tag` (Lightweight vs Annotated)?**
+**Answer:**
+- **Lightweight Tag:** A simple pointer file directly containing a Commit SHA (`git tag v1.0`).
+- **Annotated Tag:** A full Git object containing tagger identity, timestamp, GPG signature, and message (`git tag -a v1.0 -m "Release v1.0"`).
+
+### **32. What is `git checkout` vs `git switch` vs `git restore` (Git 2.23+)?**
+**Answer:**
+- `git checkout` was overloaded for both branch switching and file restoration.
+- **`git switch <branch>`:** Dedicated command strictly for switching branches.
+- **`git restore <file>`:** Dedicated command strictly for discarding working directory or staged file modifications.
+
+### **33. What is `git shortlog`?**
+**Answer:** Summarizes `git log` output by grouping commits by author name, displaying commit counts and titles.
+
+### **34. What is `git show`?**
+**Answer:** Displays the commit metadata, author, and full unified diff introduced by a specific commit or tag.
+
+### **35. What is `git status -s` (Short Format)?**
+**Answer:** Displays repository status in a compact 2-column format (`M` modified, `A` added, `??` untracked).
+
+### **36. What is `git archive`?**
+**Answer:** Exports the project tree at a specific commit or tag into a compressed zip or tarball archive without the `.git` directory (`git archive -o release.zip HEAD`).
+
+### **37. What is `git bundle`?**
+**Answer:** Packages entire repository branches and commit histories into a single portable binary file, allowing offline git transfer across air-gapped networks.
+
+### **38. What is `git update-ref`?**
+**Answer:** Plumbing command to safely update or create a ref file pointing to a specific commit SHA without moving `HEAD`.
+
+### **39. What is `git rev-parse`?**
+**Answer:** Converts human-readable branch names, tags, or relative revisions (`HEAD~3`, `main^2`) into canonical 40-character Commit SHAs.
+
+### **40. What is `git merge-base`?**
+**Answer:** Finds the best common ancestor commit between two branches, used internally by Git to compute 3-way merge diffs.
+
+### **41. What is `git describe`?**
+**Answer:** Finds the most recent reachable annotated tag from a commit and appends the number of additional commits and current commit hash (`v1.4.0-12-g2a1b3c`).
+
+### **42. What is `git rm` vs `git rm --cached`?**
+**Answer:**
+- `git rm <file>`: Removes file from both the Staging Area and local Working Directory disk.
+- `git rm --cached <file>`: Removes file from the Staging Area (stops tracking in Git) while preserving the file on local disk.
+
+### **43. What is `git mv`?**
+**Answer:** Renames or moves a file, automatically staging the change in the Index as a delete and add (detected as rename during commit).
+
+### **44. What is `git ls-files`?**
+**Answer:** Plumbing command listing all files currently tracked in the Git Index or working directory.
+
+### **45. What is `git ls-tree`?**
+**Answer:** Plumbing command listing the contents (mode, type, SHA, name) of a Tree object (`git ls-tree HEAD`).
+
+### **46. What is `git write-tree`?**
+**Answer:** Plumbing command that creates a Tree object from the current contents of the Index and writes it to `.git/objects/`.
+
+### **47. What is `git commit-tree`?**
+**Answer:** Plumbing command that creates a Commit object given a Tree SHA, parent commit SHAs, and a commit message.
+
+### **48. What is `git pack-objects` and Packfiles (`.pack` / `.idx`)?**
+**Answer:** Git compresses loose individual object files into single packfiles using delta compression algorithms, generating index files (`.idx`) for fast binary searching.
+
+### **49. What is `git unpack-objects`?**
+**Answer:** Extracts individual loose object files from a packed `.pack` archive file.
+
+### **50. What is `git count-objects`?**
+**Answer:** Counts loose and packed objects in `.git/` and reports total disk space consumed by the repository.
 
 ---
 
-## **🌍 Community & Support**  
+## 🟡 **Part 2: Advanced Branching, Rebasing & Merge Conflict Mastery (Questions 51–100)**
 
-🔗 **GitHub:** [@NotHarshhaa](https://github.com/NotHarshhaa)  
-📝 **Blog:** [ProDevOpsGuy](https://blog.prodevopsguy.xyz)  
-💬 **Telegram Community:** [Join Here](https://t.me/prodevopsguy)  
+### **51. How do you execute an Interactive Rebase (`git rebase -i`)?**
+**Answer:**
+```bash
+git rebase -i HEAD~4
+```
+Opens an editor with options:
+- `pick`: Use commit as-is.
+- `reword`: Change commit message.
+- `edit`: Pause to amend files.
+- `squash`: Meld commit into previous commit and combine messages.
+- `fixup`: Meld commit into previous commit and discard message.
+- `drop`: Delete the commit.
 
-![Follow Me](https://imgur.com/2j7GSPs.png)
+### **52. How do you resolve a complex Git Merge Conflict?**
+**Answer:**
+1. Git halts on conflict, marking files with conflict markers (`<<<<<<< HEAD`, `=======`, `>>>>>>>`).
+2. Inspect conflicting blocks; manually edit code to reconcile desired logic.
+3. Stage resolved files: `git add <file>`.
+4. Complete the operation: `git merge --continue` or `git rebase --continue`.
+
+### **53. What is `git rerere` (Reuse Recorded Resolution)?**
+**Answer:** Automatically records how you resolved a merge conflict. When the exact same merge conflict occurs in the future (during rebases or branch updates), Git resolves it automatically using the recorded solution. Enable via `git config --global rerere.enabled true`.
+
+### **54. What is Trunk-Based Development vs GitFlow?**
+**Answer:**
+- **Trunk-Based:** Developers merge small, frequent commits into a single shared branch (`main`) multiple times a day, enabling CI/CD.
+- **GitFlow:** Heavy model with long-lived branches (`develop`, `feature`, `release`, `hotfix`, `master`) that delays integration and causes merge hell.
+
+### **55. What is `git push --force-with-lease` vs `--force`?**
+**Answer:**
+- **`--force`:** Unconditionally overwrites the remote branch, potentially destroying teammates' commits pushed in the interim.
+- **`--force-with-lease`:** Rejects the push if the remote branch reference has changed since your last fetch, protecting against overwriting un-fetched remote work.
+
+### **56. What is `git gc` (Garbage Collection)?**
+**Answer:** Optimizes repository storage by packing loose objects into compressed packfiles (`.pack`), removing orphaned unreachable objects, and pruning old reflog entries.
+
+### **57. What is `git fsck`?**
+**Answer:** File System Consistency Check that verifies the cryptographic connectivity and integrity of objects in the Git database, identifying dangling blobs and commits.
+
+### **58. What is `git-filter-repo` (BFG Repo-Cleaner)?**
+**Answer:** High-performance tools for permanently stripping sensitive files (leaked passwords, large binaries) from entire Git commit history across all branches and tags.
+
+### **59. What is a Git Hook (`pre-commit`, `commit-msg`, `pre-push`)?**
+**Answer:** Scripts placed in `.git/hooks/` that execute automatically at key lifecycle points (e.g., `pre-commit` runs linters and secret scanners before creating a commit).
+
+### **60. What is Git Signed Commits (GPG / SSH)?**
+**Answer:** Signing commits with a private cryptographic key (`git commit -S -m "msg"`). GitHub displays a "Verified" badge, proving commit authenticity and author identity.
+
+### **61. What is `git rebase --onto`?**
+**Answer:** Replants a branch topic that was branched off an old feature onto a completely different base branch: `git rebase --onto main old_feature client_branch`.
+
+### **62. What is `git cherry-pick -n` (No Commit)?**
+**Answer:** Applies the diff from the target commit to your working directory and staging area without creating a commit, allowing you to batch multiple cherry-picks.
+
+### **63. What is `git merge --squash`?**
+**Answer:** Combines all commits from a feature branch into a single set of staged changes on the target branch without creating a merge commit, ready to be committed as one clean commit.
+
+### **64. What is `git diff` Three-Dot (`...`) vs Two-Dot (`..`)?**
+**Answer:**
+- `git diff branchA..branchB`: Shows direct diff between the tips of branchA and branchB.
+- `git diff branchA...branchB`: Shows the diff introduced on branchB since its common merge-base ancestor with branchA.
+
+### **65. What is `git log` Three-Dot (`...`) vs Two-Dot (`..`)?**
+**Answer:**
+- `git log master..feature`: Shows commits present on `feature` but missing from `master`.
+- `git log master...feature`: Shows commits present on either branch, excluding commits common to both (symmetric difference).
+
+### **66. What is `git notes`?**
+**Answer:** Attaches arbitrary metadata, code review comments, or build URLs to existing commits without modifying commit SHAs.
+
+### **67. What is `git worktree`?**
+**Answer:** Allows checking out and developing on multiple branches simultaneously in separate directory folders on disk from a single cloned repository.
+
+### **68. What is `git submodule update --init --recursive`?**
+**Answer:** Initializes, clones, and checks out all nested submodules declared in `.gitmodules`.
+
+### **69. What is `git sparse-checkout`?**
+**Answer:** Configures the working directory to populate only specified subfolders of a large monorepo, leaving all other files unmaterialized on disk.
+
+### **70. What is `git replace`?**
+**Answer:** Creates replacement refs allowing you to graft historical repositories or alter commit history view without modifying underlying commit objects.
+
+### **71. What is `git shallow clone` (`--depth=N`)?**
+**Answer:** Clones only the most recent $N$ commits, creating a truncated history to optimize pipeline checkout speeds.
+
+### **72. What is `git blobless clone` (`--filter=blob:none`)?**
+**Answer:** Clones all commit trees and history while downloading file blobs on-demand only when checking out files, saving gigabytes in massive monorepos.
+
+### **73. What is `git treeless clone` (`--filter=tree:0`)?**
+**Answer:** Clones only commit objects, downloading trees and blobs on-demand during checkout.
+
+### **74. What is `git commit --fixup` and `git rebase --autosquash`?**
+**Answer:**
+- `git commit --fixup <sha>`: Creates a fixup commit targeting a prior commit.
+- `git rebase -i --autosquash`: Automatically reorders and marks all fixup commits to squash into their target parents automatically.
+
+### **75. What is `git checkout -b <branch> --track <remote>/<branch>`?**
+**Answer:** Creates a new local branch and configures upstream remote tracking in a single command.
+
+### **76. What is `git branch -D` vs `-d`?**
+**Answer:**
+- `-d` (Safe): Deletes branch only if it has already been fully merged into upstream.
+- `-D` (Force): Forcibly deletes branch regardless of merge status.
+
+### **77. What is `git remote prune origin`?**
+**Answer:** Cleans up stale local tracking branches under `refs/remotes/origin/` that have been deleted on the remote GitHub server.
+
+### **78. What is `git branch --merged` vs `--no-merged`?**
+**Answer:**
+- `--merged`: Lists local branches that have been merged into `HEAD` (safe to delete).
+- `--no-merged`: Lists branches containing unmerged commits.
+
+### **79. What is `git push origin :<branch>`?**
+**Answer:** Legacy syntax to delete a remote branch on the server (equivalent to `git push origin --delete <branch>`).
+
+### **80. What is `git push origin --tags`?**
+**Answer:** Pushes all local tags to the remote repository.
+
+### **81. What is `git tag -d <tag>` and `git push origin :refs/tags/<tag>`?**
+**Answer:** Deletes a tag locally and removes it from the remote repository.
+
+### **82. What is `git config --global pull.rebase true`?**
+**Answer:** Configures `git pull` to execute a rebase instead of creating a merge commit, maintaining a linear commit history.
+
+### **83. What is `git config --global init.defaultBranch main`?**
+**Answer:** Sets `main` as the default branch name for newly initialized repositories.
+
+### **84. What is `git config --global core.autocrlf`?**
+**Answer:**
+- `true` (Windows): Converts LF to CRLF on checkout, converts CRLF to LF on commit.
+- `input` (Linux/macOS): Converts CRLF to LF on commit.
+
+### **85. What is `.gitattributes` and `eol=lf`?**
+**Answer:** Declares repository-wide line ending and binary file handling rules committed to Git to enforce consistent LF endings across operating systems.
+
+### **86. What is `.gitattributes` `diff=nodiff`?**
+**Answer:** Marks generated files (minified JS, lockfiles) so `git diff` does not clutter reviews with massive text diffs.
+
+### **87. What is `git stash branch <branch>`?**
+**Answer:** Creates and checks out a new branch starting from the commit where the stash was created, then applies and drops the stash.
+
+### **88. What is `git stash push -m "message"`?**
+**Answer:** Saves a stash with a descriptive label for easy identification in `git stash list`.
+
+### **89. What is `git stash show -p`?**
+**Answer:** Displays the full unified diff of changes stored inside a stash.
+
+### **90. What is `git stash drop stash@{N}`?**
+**Answer:** Permanently deletes a specific stash entry from the stack.
+
+### **91. What is `git stash clear`?**
+**Answer:** Deletes all stashes in the repository.
+
+### **92. What is `git bisect run <script.sh>`?**
+**Answer:** Automates bisecting by executing a script that tests code and returns exit code 0 (good) or non-zero (bad), finding the broken commit in seconds.
+
+### **93. What is `git bisect reset`?**
+**Answer:** Terminates the bisect session and returns the working directory to the original branch `HEAD`.
+
+### **94. What is `git cherry-pick --abort`?**
+**Answer:** Cancels an in-progress cherry-pick operation and restores the repository state prior to the command.
+
+### **95. What is `git rebase --abort` vs `--skip`?**
+**Answer:**
+- `--abort`: Cancels the rebase and resets to the original pre-rebase state.
+- `--skip`: Discards the current conflicting commit entirely and continues rebasing remaining commits.
+
+### **96. What is `git merge --abort`?**
+**Answer:** Cancels a conflicted merge and restores the pre-merge state cleanly.
+
+### **97. What is `git log -S "string"` (Pickaxe)?**
+**Answer:** Searches commit history for commits that added or deleted occurrences of the specified text string.
+
+### **98. What is `git log -G "regex"`?**
+**Answer:** Searches commit history for commits whose patch diffs match the specified regular expression.
+
+### **99. What is `git log --follow <file>`?**
+**Answer:** Tracks file history across historical file renames and moves.
+
+### **100. What is `git format-patch -1 <sha>`?**
+**Answer:** Generates an emailable patch file representing a single specific commit.
+
+---
+
+## 🔴 **Part 3: GitOps Integration & Enterprise Scenarios (Questions 101–150)**
+
+### **101. Scenario: An engineer accidentally committed AWS secrets to a public GitHub repo 10 commits ago. Walk through the complete remediation.**
+**Answer:**
+1. **Rotate Keys Immediately:** Invalidate and delete the AWS access key in AWS IAM within 60 seconds.
+2. **Purge Git History:**
+   ```bash
+   git-filter-repo --path-match "secrets.env" --invert-paths
+   git push origin --force --all
+   ```
+3. **Contact GitHub Support:** Request manual cache purge of cached commit views.
+
+### **102. Scenario: A developer accidentally ran `git reset --hard` and lost 3 days of uncommitted and committed work. How do you recover?**
+**Answer:**
+- **For Committed Work:** Run `git reflog` to locate the commit hash before the reset, then run `git checkout -b recovery_branch <commit_hash>`.
+- **For Uncommitted Staged Work:** Run `git fsck --lost-found`, inspect recovered dangling blobs in `.git/lost-found/other/` using `git cat-file -p <blob_sha>`.
+
+### **103. What is Git Sparse Checkout?**
+**Answer:** Allows cloning massive enterprise monorepos while checking out only specific subdirectories onto your local disk, saving gigabytes of disk space and build time.
+
+### **104. What is Git Shallow Clone (`git clone --depth 1`)?**
+**Answer:** Clones only the single most recent commit without downloading historical commit history, drastically speeding up CI/CD pipeline checkout times.
+
+### **105. What is Git Worktree?**
+**Answer:** Allows checking out multiple branches of the same repository simultaneously into different local directory folders on disk without cloning multiple repos (`git worktree add ../hotfix hotfix-branch`).
+
+### **106. What is Git LFS (Large File Storage)?**
+**Answer:** Replaces large binary files (videos, dataset models, zip archives) with lightweight pointer files inside the Git repository, storing real large binary payloads on remote LFS servers.
+
+### **107. What is Git Merge Strategy (Recursive, Ort, Resolve, Octupus)?**
+**Answer:**
+- **Ort (Default in Git 2.34+):** Modern rewrite of the recursive merge strategy; vastly faster with superior conflict detection and automatic rename handling.
+- **Octopus:** Merges more than two parent branches in a single merge commit.
+
+### **108. What is Git Bare Repository (`git init --bare`)?**
+**Answer:** A repository containing *only* the `.git` database with zero working directory files, used exclusively as remote central server hubs.
+
+### **109. What is Git Patch (`git format-patch` and `git am`)?**
+**Answer:** Generates email-compatible plaintext patch files containing commit diffs and metadata, applied onto target branches using `git am`.
+
+### **110. What is an Enterprise GitOps Repository Architecture?**
+**Answer:**
+- **App Repo:** Contains application source code, Dockerfiles, unit tests. CI builds container images and pushes to OCI registry.
+- **GitOps Config Repo (Separate):** Contains declarative Helm/Kustomize environment manifests (dev, staging, prod) monitored by ArgoCD, enforcing strict PR reviews and separation of concerns.
+
+### **111. What is Git Pre-Receive Hook vs Post-Receive Hook?**
+**Answer:**
+- `pre-receive`: Runs on the remote server before refs are updated; can reject pushes that violate branch protection or contain un-signed commits.
+- `post-receive`: Runs after push completes, triggering CI/CD webhooks.
+
+### **112. What is Git Commit Hook (`commit-msg`)?**
+**Answer:** Validates commit message structure locally before commit creation (enforces Conventional Commits: `feat:`, `fix:`).
+
+### **113. What is `git maintenance`?**
+**Answer:** Runs background optimization tasks (prefetching remotes, loose object packing, commit-graph writing) to keep large repositories fast.
+
+### **114. What is Git Commit-Graph (`.git/objects/info/commit-graph`)?**
+**Answer:** Binary cache file of DAG commit graph structures, speeding up `git log --graph` by over 10x in massive repos.
+
+### **115. What is Git Multi-Pack Index (MIDX)?**
+**Answer:** Indexes multiple `.pack` packfiles into a single index structure, accelerating object lookups across gigabyte repositories.
+
+### **116. What is Git Server-Side Object Quotas?**
+**Answer:** Server-side hooks rejecting commits pushing individual files exceeding size thresholds (e.g., $> 100\text{MB}$).
+
+### **117. What is GitHub Merge Queue?**
+**Answer:** Automated train that tests and merges PRs sequentially to prevent broken `main` branches caused by overlapping PR merges.
+
+### **118. What is GitHub Branch Protection Required Reviewers?**
+**Answer:** Enforces that PRs must have approval from at least $N$ designated code owners (`CODEOWNERS`) before merge.
+
+### **119. What is `CODEOWNERS` File?**
+**Answer:** Declares which teams or users own specific paths and files in a repository, automatically adding them as required PR reviewers.
+
+### **120. What is GitHub Dependabot Automated Pull Requests?**
+**Answer:** Automatically opens PRs with dependency version bumps when security vulnerabilities are detected.
+
+### **121. What is Renovate Bot Configuration (`renovate.json`)?**
+**Answer:** Declarative dependency automation tool supporting regex managers, auto-merging non-breaking patch releases, and custom schedules.
+
+### **122. What is Semantic Release Automated Versioning?**
+**Answer:** Parses Conventional Commit messages in CI to determine SemVer bumps (`feat:` $\rightarrow$ MINOR, `fix:` $\rightarrow$ PATCH, `BREAKING CHANGE:` $\rightarrow$ MAJOR) and publishes GitHub releases automatically.
+
+### **123. What is Release Please?**
+**Answer:** Google release tool that maintains a perpetual "Release PR" containing changelog updates and version bumps based on commit history.
+
+### **124. What is Git GPG Key Expiration and Renewal?**
+**Answer:** Updating the expiration date on your GPG key (`gpg --edit-key <KEY_ID> expire`) and re-uploading public keys to GitHub to maintain verified commit badges.
+
+### **125. What is SSH Commit Signing in Git 2.34+?**
+**Answer:** Using your existing SSH key pair (`git config gpg.format ssh`) to sign commits cryptographically without configuring GPG keys.
+
+### **126. What is Git Credential Manager (GCM)?**
+**Answer:** Secure credential helper storing OAuth tokens in OS credential stores (Windows Credential Manager, macOS Keychain) with 2FA/SSO support.
+
+### **127. What is Git Interactive Add (`git add -p`)?**
+**Answer:** Allows staging individual hunks of changed files interactively, crafting atomic commits.
+
+### **128. What is Git Patch Mode (`git checkout -p` / `git reset -p`)?**
+**Answer:** Interactively discard or un-stage individual code hunks without modifying the rest of the file.
+
+### **129. What is Git Commit `--no-verify` Flag?**
+**Answer:** Bypasses local pre-commit and commit-msg hooks (`git commit -m "msg" --no-verify`). *Use with extreme caution.*
+
+### **130. What is Git Push `--no-verify` Flag?**
+**Answer:** Bypasses local pre-push hooks during push.
+
+### **131. What is Git Refspec (`refs/heads/*:refs/remotes/origin/*`)?**
+**Answer:** Maps remote references to local tracking references in `.git/config`.
+
+### **132. What is Git Force Push Lease Failure (`stale info`)?**
+**Answer:** Occurs when another engineer pushed to the remote branch after your last fetch; `--force-with-lease` blocks the push to prevent overwriting their work.
+
+### **133. What is Git Dangling Blob vs Unreachable Commit?**
+**Answer:**
+- **Dangling Blob:** A blob created via `git add` that was never referenced in any commit.
+- **Unreachable Commit:** A commit that is no longer reachable from any branch tip or tag (e.g., after `git reset --hard`).
+
+### **134. What is Git Object Pruning Expiry (`git gc --prune=now`)?**
+**Answer:** Forcibly purges all unreachable loose objects from disk immediately rather than waiting for the default 14-day grace period.
+
+### **135. What is Git Reflog Expiry (`git reflog expire --expire=now --all`)?**
+**Answer:** Clears all reflog history immediately, making unreferenced commits eligible for instant garbage collection.
+
+### **136. What is Git Submodule Deinit (`git submodule deinit -f <path>`)?**
+**Answer:** Unregisters a submodule and wipes its working directory files without deleting `.gitmodules`.
+
+### **137. What is Git Submodule Sync (`git submodule sync`)?**
+**Answer:** Synchronizes submodule remote URL changes declared in `.gitmodules` into `.git/config`.
+
+### **138. What is Git Subtree Split (`git subtree split --prefix=<path> -b <branch>`)?**
+**Answer:** Extracts the complete historical commit history of a subdirectory in a monorepo into an independent standalone branch.
+
+### **139. What is Git Remote Rename (`git remote rename origin old-origin`)?**
+**Answer:** Renames a remote handle and updates all associated remote-tracking branches.
+
+### **140. What is Git Remote Set-URL (`git remote set-url origin <new-url>`)?**
+**Answer:** Updates the fetch and push URL of a configured remote.
+
+### **141. What is Git Config `--show-origin`?**
+**Answer:** Displays the exact configuration file on disk where each git config setting is defined.
+
+### **142. What is Git Safe Directory (`safe.directory`)?**
+**Answer:** Security setting in Git 2.35.2+ preventing execution in repositories owned by different OS user accounts to stop privilege escalation.
+
+### **143. What is Git Credential Helper Store vs Cache?**
+**Answer:**
+- `store`: Persists plain text credentials unencrypted in `~/.git-credentials`.
+- `cache`: Caches credentials in memory for a configurable duration (default: 15 minutes).
+
+### **144. What is Git Environment Variable `GIT_DIR`?**
+**Answer:** Overrides the location of the `.git` metadata repository directory.
+
+### **145. What is Git Environment Variable `GIT_WORK_TREE`?**
+**Answer:** Overrides the root directory of the working tree.
+
+### **146. What is Git Environment Variable `GIT_AUTHOR_NAME` and `GIT_COMMITTER_NAME`?**
+**Answer:** Overrides author and committer identity metadata during commit creation in CI scripts.
+
+### **147. What is Git Environment Variable `GIT_SSH_COMMAND`?**
+**Answer:** Specifies custom SSH parameters or private key files (`GIT_SSH_COMMAND="ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no"`).
+
+### **148. What is Git Protocol v2?**
+**Answer:** Modern server communication protocol allowing client filtering of refs, reducing bandwidth during `git fetch` in massive repos with millions of tags.
+
+### **149. What is Git Hook Directory Customization (`core.hooksPath`)?**
+**Answer:** Redirects Git hooks from `.git/hooks/` to a version-controlled repository folder (`.husky/` or `.githooks/`), sharing hooks across team members.
+
+### **150. What is an Enterprise Version Control Branching & Release Strategy?**
+**Answer:**
+1. **Trunk-Based Development:** Short-lived feature branches ($< 1$ day) merged to `main` via PRs with mandatory CI tests.
+2. **Automated Semantic Releases:** Conventional Commits generate SemVer tags and changelogs.
+3. **Signed Commits:** Cryptographic verification enforced on protected branches.
+4. **GitOps Promotion:** Separate GitOps config repositories drive continuous deployment to Kubernetes via ArgoCD.
