@@ -1,487 +1,181 @@
-# DevOps Mock Interview Questions and Answers
+# **DevOps Mock Interviews & Scenario-Based Case Studies**
 
-## **Beginner-Level (1-20) Questions with Solutions**
-
-### **1. What is DevOps, and why is it important?**  
-
-#### **Answer:**  
-
-DevOps is a **set of practices** that combines **software development (Dev)** and **IT operations (Ops)** to shorten the **software development lifecycle (SDLC)** while ensuring **high quality and reliability**.  
-
-### **2. How does DevOps differ from traditional IT operations?**  
-
-#### **Answer:**  
-
-| **Aspect**       | **Traditional IT Operations** | **DevOps** |
-|-----------------|------------------------------|------------|
-| Development & Operations | Separate teams | Integrated teams |
-| Deployment Frequency | Weeks/Months | Daily/Weekly |
-| Automation | Limited | Extensive (CI/CD, IaC) |
-| Collaboration | Siloed | Cross-functional |
-| Feedback Loop | Slow | Fast (Continuous Monitoring) |
-
-### **3. What are the key principles of DevOps?**  
-
-#### **Answer:**  
-
-1. **Collaboration** – Breaking silos between Dev & Ops  
-2. **Automation** – CI/CD, Infrastructure as Code (IaC)  
-3. **Continuous Integration & Continuous Deployment (CI/CD)**  
-4. **Monitoring & Logging** – Observability, real-time feedback  
-5. **Security (DevSecOps)** – Security integrated into SDLC  
-
-### **4. Explain the DevOps lifecycle.**  
-
-#### **Answer:**  
-
-1. **Plan** – Jira, Trello  
-2. **Develop** – Git, GitHub  
-3. **Build** – Maven, Gradle  
-4. **Test** – Selenium, JUnit  
-5. **Release** – GitHub Actions, Jenkins  
-6. **Deploy** – Kubernetes, Docker  
-7. **Monitor** – Prometheus, Grafana  
-
-### **5. What are some common DevOps tools?**  
-
-#### **Answer:**  
-
-- **CI/CD**: Jenkins, GitHub Actions, GitLab CI  
-- **Configuration Management**: Ansible, Puppet  
-- **Containerization**: Docker, Kubernetes  
-- **Monitoring & Logging**: Prometheus, Grafana, ELK Stack  
-
-### **6. What is CI/CD, and how does it work?**  
-
-#### **Answer:**  
-
-CI/CD is a DevOps practice that automates code integration, testing, and deployment.  
-
-- **Continuous Integration (CI)** – Automates code merging & testing.  
-- **Continuous Deployment (CD)** – Automates production releases.  
-
-### **7. Explain the difference between Continuous Deployment and Continuous Delivery.**  
-
-#### **Answer:**  
-
-| **Aspect**      | **Continuous Delivery** | **Continuous Deployment** |
-|---------------|------------------------|--------------------------|
-| Automation   | Deployments require manual approval | Fully automated deployments |
-| Risk        | Lower risk, manual control | Higher automation, requires testing reliability |
-
-### **8. What is version control, and why is Git used in DevOps?**  
-
-#### **Answer:**  
-
-Version control tracks code changes, allowing collaboration. Git is widely used because of:  
-
-- **Branching & Merging** – Parallel development  
-- **Distributed Version Control** – No central dependency  
-
-### **9. What is Infrastructure as Code (IaC)?**  
-
-#### **Answer:**  
-
-IaC automates infrastructure provisioning using code. Example: **Terraform, Ansible, CloudFormation**.  
-
-### **10. How does a DevOps engineer handle configuration management?**  
-
-#### **Answer:**  
-
-Using **Ansible, Puppet, Chef**, engineers automate configuration setup, ensuring consistency.  
-
-### **11. What is a container, and how does Docker help DevOps?**  
-
-#### **Answer:**  
-
-A container packages an app with dependencies, ensuring it runs identically anywhere. Docker simplifies container management.  
-
-### **12. Explain Kubernetes and why it’s used in DevOps.**  
-
-#### **Answer:**  
-
-Kubernetes orchestrates containers, automating deployment, scaling, and networking.  
-
-### **13. What is a microservices architecture?**  
-
-#### **Answer:**  
-
-Microservices break apps into independent, loosely coupled services for scalability and agility.  
-
-### **14. What is a reverse proxy, and why use Nginx in DevOps?**  
-
-#### **Answer:**  
-
-A reverse proxy (e.g., **Nginx**) balances traffic, improves security, and caches content.  
-
-### **15. How do you monitor system performance in DevOps?**  
-
-#### **Answer:**  
-
-Using tools like **Prometheus, Grafana, ELK Stack** to track logs, metrics, and alerts.  
-
-### **16. What is the purpose of logging in DevOps?**  
-
-#### **Answer:**  
-
-Logging helps capture system and application events, allowing developers and operations teams to diagnose issues and improve performance.  
-
-- **Tools**: ELK Stack, Loki, Splunk  
-
-### **17. What are environment variables, and why are they important in DevOps?**  
-
-#### **Answer:**  
-
-Environment variables store configuration settings (e.g., API keys, DB credentials). They help manage different environments (Dev, QA, Production) without modifying code.  
-
-### **18. What is a load balancer, and why is it used?**  
-
-#### **Answer:**  
-
-A **load balancer** distributes traffic across multiple servers to improve availability, reliability, and performance.  
-
-- **Example**: Nginx, AWS ELB  
-
-### **19. What is a service discovery mechanism in microservices?**  
-
-#### **Answer:**  
-
-Service discovery helps microservices locate and communicate with each other dynamically.  
-
-- **Examples**: Consul, Eureka, Kubernetes Service Discovery  
-
-### **20. How do you implement error handling in a CI/CD pipeline?**  
-
-#### **Answer:**  
-
-1. **Automated Testing** – Detects issues early  
-2. **Logging & Monitoring** – Alerts and logs errors  
-3. **Rollback Strategy** – Deploys a stable version if errors occur
+Welcome to the **DevOps Mock Interviews & Scenario-Based Case Studies** module. This section provides complete end-to-end interview simulations for **Senior DevOps Engineer**, **Lead SRE**, and **Principal Platform Engineer** roles, covering system design, live incident debugging walkthroughs, and executive architectural discussions.
 
 ---
 
-## **Intermediate-Level (21-40) Questions with Solutions**
+## 🎯 **Mock Interview Round 1: DevOps & Platform Engineering System Design**
 
-### **21. Explain the difference between Docker and Kubernetes.**  
+### **Question 1: System Design – Design a Globally Scalable, Ephemeral CI/CD Platform for 1,000+ Software Engineers.**
 
-#### **Answer:**  
+**Interviewer Prompt:**
+*"Our engineering organization has 1,000 developers running 20,000 pipeline builds per day across 300 microservices. Builds take too long, developers complain about pipeline queue wait times, and we frequently hit API rate limits and security vulnerabilities. Design an enterprise-grade CI/CD platform from the ground up."*
 
-| **Feature**    | **Docker**                     | **Kubernetes** |
-|--------------|--------------------------------|--------------|
-| Purpose     | Containerization tool | Orchestration of containers |
-| Deployment | Single-node containers | Multi-node cluster management |
-| Scaling    | Manual scaling | Auto-scaling |
+**Candidate Architectural Response:**
 
-### **22. What is Blue-Green Deployment?**  
+#### **1. Architecture & Compute Infrastructure:**
+- **Control Plane:** GitHub Actions Enterprise / GitLab CI.
+- **Compute Runners:** Deploy **Actions Runner Controller (ARC)** on an **Amazon EKS** cluster.
+  - Runners run as ephemeral Kubernetes Pods created on-demand via GitHub webhook events (`workflow_job`).
+  - Runner pods are destroyed immediately upon job completion to ensure clean security isolation.
+  - **Autoscaling:** Use **Karpenter** to provision underlying EC2 Spot instances (e.g., `c6i.4xlarge` and Graviton `c7g.4xlarge`) in under 45 seconds to scale runners from 0 to 1,000+ instances during morning peak hours.
 
-#### **Answer:**  
+#### **2. Performance & Caching Strategy:**
+- **Dependency Caching:** Mount high-speed AWS EFS / Lustre NVMe caching volumes for Maven, Gradle, NPM, and Go module caches.
+- **Docker Layer Caching:** Deploy self-hosted **Harbor** / **AWS ECR Pull Through Cache** inside the VPC to cache Docker base images, eliminating external Docker Hub rate limits.
+- **BuildKit Remote Cache:** Use inline BuildKit remote caching to reuse intermediate compilation layers across independent runner instances.
 
-A strategy where two environments (Blue & Green) exist:  
+#### **3. Security & Compliance Guardrails:**
+- **Zero Static Credentials (OIDC):** Configure OpenID Connect (OIDC) between GitHub Actions and AWS IAM / GCP Workload Identity. No long-lived AWS Access Keys are stored in secrets.
+- **Supply Chain Security:**
+  - **SBOM Generation:** Syft generates CycloneDX SBOMs in pipeline.
+  - **Image Signing:** Sigstore Cosign signs container images with keyless OIDC tokens.
+  - **Vulnerability Scanning:** Trivy blocks builds containing High/Critical CVEs with available fixes.
+- **Runtime Sandboxing:** Enforce `gVisor` runtime on runner pods to prevent untrusted build scripts from escaping containers.
 
-- **Blue** – Active  
-- **Green** – Staging (new version)  
-Switching traffic to Green reduces downtime.
-
-### **23. How does Terraform differ from Ansible?**  
-
-#### **Answer:**  
-
-- **Terraform**: Declarative, cloud provisioning  
-- **Ansible**: Configuration management, procedural  
-
-### **24. What is Canary Deployment?**  
-
-#### **Answer:**  
-
-A small subset of users receives the new update before a full rollout.
-
-### **25. What are Helm charts in Kubernetes?**  
-
-#### **Answer:**  
-
-Helm automates Kubernetes app deployment using **predefined templates**.
-
-### **26. What is a rolling update in Kubernetes?**  
-
-#### **Answer:**  
-
-A **rolling update** gradually replaces old pods with new ones without downtime.  
-
-### **27. How do you handle secrets securely in a DevOps pipeline?**  
-
-#### **Answer:**  
-
-1. **HashiCorp Vault**  
-2. **AWS Secrets Manager**  
-3. **Kubernetes Secrets**  
-
-### **28. What is an immutable infrastructure?**  
-
-#### **Answer:**  
-
-Infrastructure where components are **never modified** after deployment, reducing configuration drift.  
-
-### **29. What are the different types of Kubernetes services?**  
-
-#### **Answer:**  
-
-1. **ClusterIP** – Internal communication  
-2. **NodePort** – Exposes a service on a port  
-3. **LoadBalancer** – External traffic balancing  
-
-### **30. How does Prometheus monitor Kubernetes clusters?**  
-
-#### **Answer:**  
-
-- Uses **exporters** to collect metrics  
-- **Stores time-series data**  
-- **Alerts on anomalies** via Alertmanager  
-
-### **31. What is the difference between monolithic and microservices architectures?**  
-
-#### **Answer:**  
-
-| **Aspect**   | **Monolithic** | **Microservices** |
-|-------------|--------------|------------------|
-| Scalability | Harder       | Easier |
-| Deployment  | Single unit  | Independent services |
-| Maintenance | Complex     | Easier |
-
-### **32. How does Ansible differ from Chef and Puppet?**  
-
-#### **Answer:**  
-
-- **Ansible** – Agentless, YAML-based, simple  
-- **Chef/Puppet** – Require agents, more complex  
-
-### **33. How do you ensure high availability in a cloud environment?**  
-
-#### **Answer:**  
-
-1. **Multi-AZ Deployments**  
-2. **Load Balancing**  
-3. **Auto Scaling**  
-
-### **34. How do you handle stateful applications in Kubernetes?**  
-
-#### **Answer:**  
-
-Using **StatefulSets**, **Persistent Volumes**, and **Storage Classes**.  
-
-### **35. What is a sidecar container pattern in Kubernetes?**  
-
-#### **Answer:**  
-
-A sidecar runs alongside the main app container to handle **logging, monitoring, or proxying**.  
-
-### **36. How do you implement security in a CI/CD pipeline?**  
-
-#### **Answer:**  
-
-1. **Static Code Analysis (SAST)**  
-2. **Container Scanning**  
-3. **Dependency Scanning**  
-
-### **37. What is the concept of "Shift Left" in DevOps security?**  
-
-#### **Answer:**  
-
-"Shift Left" integrates security **earlier in the development cycle**, reducing vulnerabilities.  
-
-### **38. What is a Kubernetes DaemonSet?**  
-
-#### **Answer:**  
-
-A **DaemonSet** ensures that a pod runs on every node.  
-
-### **39. What is the difference between proactive and reactive monitoring?**  
-
-#### **Answer:**  
-
-- **Proactive** – Prevents issues (threshold-based alerts)  
-- **Reactive** – Responds to issues (post-failure logs)  
-
-### **40. What is the role of service mesh in Kubernetes?**  
-
-#### **Answer:**  
-
-A **service mesh** (e.g., Istio) manages service-to-service communication, security, and monitoring.
+#### **4. Monorepo & Build Optimization:**
+- Implement **Turborepo** or **Bazel** with change-graph detection so PRs only build and test the specific microservices modified in the commit.
 
 ---
 
-## **Advanced-Level (41-60) Questions with Solutions**
+### **Question 2: System Design – Design a Zero-Downtime, Multi-Region Kubernetes Platform for Financial Payments.**
 
-### **41. How do you secure a Kubernetes cluster?**  
+**Interviewer Prompt:**
+*"Design a payment processing platform across two cloud regions (`us-east-1` and `eu-west-1`) that can withstand an entire AWS region going offline with zero customer-perceived downtime, strict ACID transaction consistency, and sub-200ms latency."*
 
-#### **Answer:**  
+**Candidate Architectural Response:**
 
-1. **RBAC (Role-Based Access Control)**  
-2. **Network Policies**  
-3. **Secrets Management**  
+#### **1. Global Traffic & Ingress:**
+- **Anycast Layer:** AWS Global Accelerator provides static Anycast IPs and routes traffic over AWS private fiber backbones directly to the nearest regional Application Load Balancers.
+- **DNS Failover:** Route 53 latency routing with automated health checks probing regional `/healthz` endpoints every 10 seconds.
+- **Ingress Controller:** Kubernetes **Gateway API** with Envoy Proxy handling Layer 7 routing and mTLS termination.
 
-### **42. How would you handle a production failure in a CI/CD pipeline?**  
+#### **2. Distributed Compute & GitOps:**
+- **Kubernetes Clusters:** Dedicated EKS clusters in each region.
+- **Continuous Deployment:** **ArgoCD** deployed in a centralized management cluster synchronizing identical declarative manifests to both regional clusters.
+- **Progressive Delivery:** **Argo Rollouts** manages automated Canary deployments with Prometheus metric analysis.
 
-#### **Answer:**  
+#### **3. High-Consistency Data Architecture:**
+- **Relational Data (Transactions):** **CockroachDB Dedicated** or **Amazon Aurora Global Database** with Write-Forwarding.
+  - User accounts partitioned regionally by country code to ensure 95% of transactions are local reads/writes (sub-20ms).
+  - Cross-region distributed consensus managed via Raft.
+- **Caching Layer:** Amazon ElastiCache (Redis) Global Datastore with active-passive replication.
+- **Asynchronous Processing:** Apache Kafka (Amazon MSK) with MirrorMaker 2 replicating event topics across regions.
 
-1. **Identify the failure** (logs, monitoring tools)  
-2. **Rollback the last stable version**  
-3. **Fix and test the issue**  
-4. **Redeploy the fixed version**  
-5. **Post-mortem analysis**  
-
-### **43. What is GitOps, and how does it work?**  
-
-#### **Answer:**  
-
-GitOps automates infrastructure and app deployment using Git as the **single source of truth**.  
-
-### **44. How do you monitor microservices?**  
-
-#### **Answer:**  
-
-1. **Distributed Tracing (Jaeger, Zipkin)**  
-2. **Centralized Logging (ELK, Loki)**  
-3. **Metrics (Prometheus, Grafana)**  
-
-### **45. How does service mesh improve microservices security?**  
-
-#### **Answer:**  
-
-A service mesh (e.g., Istio) provides:  
-
-- **mTLS (Mutual TLS)**  
-- **Traffic control & observability**  
-
-### **46. What is Open Policy Agent (OPA)?**  
-
-#### **Answer:**  
-
-OPA enforces security policies in cloud environments.
-
-### **47. How do you manage secrets in Kubernetes?**  
-
-#### **Answer:**  
-
-1. **Kubernetes Secrets**  
-2. **Vault by HashiCorp**  
-3. **AWS Secrets Manager**  
-
-### **48. How do you optimize Kubernetes performance?**  
-
-#### **Answer:**  
-
-1. **Pod Auto-scaling (HPA, VPA)**  
-2. **Resource Limits & Requests**  
-3. **Efficient Networking**  
-
-### **49. How do you ensure compliance in DevOps pipelines?**  
-
-#### **Answer:**  
-
-1. **Automated Policy Enforcement (OPA, Kyverno)**  
-2. **Audit Logging**  
-3. **Access Control & Role-Based Permissions**  
-
-### **50. What is Chaos Engineering, and why is it used?**  
-
-#### **Answer:**  
-
-**Chaos Engineering** tests system resilience by simulating failures (e.g., Chaos Monkey).  
-
-### **51. How do you implement zero-downtime deployments?**  
-
-#### **Answer:**  
-
-1. **Blue-Green Deployments**  
-2. **Canary Releases**  
-3. **Rolling Updates**  
-
-### **52. What are the best practices for managing multi-cloud infrastructure?**  
-
-#### **Answer:**  
-
-1. **Use a common IaC tool (Terraform)**  
-2. **Standardized security policies**  
-3. **Cross-cloud monitoring**  
-
-### **53. How do you secure container images?**  
-
-#### **Answer:**  
-
-1. **Use minimal base images (Alpine, Distroless)**  
-2. **Scan images for vulnerabilities (Trivy, Clair)**  
-
-### **54. How do you manage Kubernetes upgrades with zero downtime?**  
-
-#### **Answer:**  
-
-1. **Rolling Updates**  
-2. **Node Drain & Replace**  
-3. **Backup & Disaster Recovery Plan**  
-
-### **55. What is Policy as Code (PaC)?**  
-
-#### **Answer:**  
-
-PaC enforces policies using **code-driven automation** (e.g., Open Policy Agent).  
-
-### **56. How do you debug failed Kubernetes deployments?**  
-
-#### **Answer:**  
-
-1. **kubectl describe pod <pod-name>**  
-2. **kubectl logs <pod-name>**  
-3. **kubectl get events**  
-
-### **57. How does eBPF enhance observability in Kubernetes?**  
-
-#### **Answer:**  
-
-**eBPF (Extended Berkeley Packet Filter)** runs sandboxed programs inside the Linux kernel for deep observability.  
-
-### **58. How do you handle disaster recovery in Kubernetes?**  
-
-#### **Answer:**  
-
-1. **Backup etcd**  
-2. **Cluster snapshots**  
-3. **Multi-region deployments**  
-
-### **59. What is progressive delivery, and how does it differ from traditional deployments?**  
-
-#### **Answer:**  
-
-Progressive delivery deploys updates gradually using techniques like **feature flags and A/B testing**.  
-
-### **60. What are Kubernetes operators, and why are they useful?**  
-
-#### **Answer:**  
-
-Kubernetes **Operators** automate complex application deployment and lifecycle management.  
+#### **4. Disaster Recovery & Failover Mechanism:**
+- If Region A fails, Route 53 health check triggers within 30 seconds $\rightarrow$ shifts 100% of global traffic to Region B.
+- Region B's **Karpenter** scales up EKS worker nodes to absorb 2x load in under 60 seconds.
 
 ---
 
-## **📢 Contribute & Stay Updated**  
+## 🚨 **Mock Interview Round 2: Live Production Incident Troubleshooting**
 
-💡 **Want to contribute?**  
-We **welcome contributions!** If you have insights, new tools, or improvements, feel free to submit a **pull request**.  
+### **Question 3: Live Incident – "Production is Throwing HTTP 504 Gateway Timeouts During Peak Traffic."**
 
-📌 **How to Contribute?**
+**Interviewer Prompt:**
+*"It is 2:00 PM on Black Friday. Our e-commerce checkout service is failing with HTTP 504 Gateway Timeouts. Customers cannot place orders. Walk me through your real-time incident diagnosis and resolution process step-by-step."*
 
-- Read the **[CONTRIBUTING.md](https://github.com/NotHarshhaa/DevOps-Interview-Questions/blob/master/CONTRIBUTING.md)** guide.  
-- Fix errors, add missing topics, or suggest improvements.  
-- Submit a **pull request** with your updates.  
+**Candidate Response:**
 
-📢 **Stay Updated:**  
-⭐ **Star the repository** to get notified about new updates and additions.  
-💬 **Join discussions** in **[GitHub Issues](https://github.com/NotHarshhaa/DevOps-Interview-Questions/issues)** to suggest improvements.  
+#### **Phase 1: Immediate Triage & Incident Command (Minutes 0–5)**
+1. **Declare Incident:** Open PagerDuty incident bridge, assign Incident Commander (IC), Ops Lead, and Communications Lead.
+2. **Post Public Status:** Update status page: *"Investigating checkout delays."*
+3. **Check High-Level Dashboards (Grafana):**
+   - Identify where 504 originates: Cloudflare $\rightarrow$ ALB $\rightarrow$ Ingress $\rightarrow$ Application Pod $\rightarrow$ Database.
+   - ALB 504 indicates that the backend application pod did not respond within the configured idle timeout window (e.g., 60 seconds).
+
+#### **Phase 2: Deep Diagnostics (Minutes 5–15)**
+1. **Check Kubernetes Pod Health:**
+   ```bash
+   kubectl get pods -n prod -l app=checkout-service -o wide
+   kubectl top pods -n prod -l app=checkout-service
+   ```
+2. **Inspect Distributed Traces (Tempo / Jaeger):**
+   - Query traces returning HTTP 504.
+   - *Finding:* Trace shows `checkout-service` span is blocked for 60 seconds waiting on a PostgreSQL database query: `SELECT * FROM orders WHERE user_id = ? FOR UPDATE`.
+3. **Inspect Database Telemetry (PostgreSQL / RDS Performance Insights):**
+   - CPU is 100%, Active Connections = 500 (Max Limit reached).
+   - `pg_stat_activity` shows dozens of long-running exclusive row locks blocking incoming read/write transactions.
+
+#### **Phase 3: Mitigation & Stabilization (Minutes 15–25)**
+1. **Kill Blocking Queries:**
+   ```sql
+   SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE state = 'active' AND query_start < NOW() - INTERVAL '2 minutes';
+   ```
+2. **Shed Load at Ingress:** Temporarily rate-limit non-critical cart updates and background analytics traffic at Cloudflare WAF.
+3. **Scale RDS Proxy / PgBouncer:** Enable AWS RDS Proxy to multiplex incoming connections and prevent connection pool exhaustion.
+4. **Verify Telemetry:** Confirm ALB 504 error rate drops to 0% and p99 latency returns to $< 150\text{ms}$.
+
+#### **Phase 4: Blameless Post-Mortem & Permanent Engineering Actions**
+- **Root Cause:** A newly introduced query lacked an index on `orders(user_id, status)` and held an exclusive table lock during high concurrency.
+- **Action Items:**
+  1. Add composite index `CREATE INDEX CONCURRENTLY idx_orders_user_status`.
+  2. Implement strict query timeout in application database pool (`statement_timeout = 3000ms`).
+  3. Enforce automated database migration review and query analysis in CI pipelines.
 
 ---
 
-## **🌍 Community & Support**  
+### **Question 4: Live Incident – "Kubernetes Worker Nodes Randomly Flapping Between `Ready` and `NotReady`."**
 
-🔗 **GitHub:** [@NotHarshhaa](https://github.com/NotHarshhaa)  
-📝 **Blog:** [ProDevOpsGuy](https://blog.prodevopsguy.xyz)  
-💬 **Telegram Community:** [Join Here](https://t.me/prodevopsguy)  
+**Interviewer Prompt:**
+*"During a high-throughput load test, multiple worker nodes in our Kubernetes cluster start flapping between Ready and NotReady. Pods are being evicted and rescheduling storms are crashing the cluster. How do you troubleshoot this?"*
 
-![Follow Me](https://imgur.com/2j7GSPs.png)
+**Candidate Response:**
+
+#### **Step 1: Inspect Node Status & Conditions**
+```bash
+kubectl describe node <flapping-node>
+```
+Look for Conditions: `MemoryPressure`, `DiskPressure`, `PIDPressure`, `Ready: False (Kubelet stopped posting node status)`.
+
+#### **Step 2: Check Node System Logs & Resources**
+SSH / SSM into the affected worker node:
+```bash
+# Check CPU, Memory, and Disk I/O Wait
+top
+iostat -xz 1 5
+
+# Check Kubelet Service Logs
+journalctl -u kubelet -n 100 --no-pager
+
+# Check Kernel Logs for OOM or Paging Stalls
+dmesg -T | grep -E -i 'oom|hung_task|out of memory'
+```
+
+#### **Step 3: Root Cause Analysis Scenarios**
+- **Case A: PID Exhaustion (`pids.max`):** A buggy application spawned thousands of zombie threads, exhausting the Linux kernel PID limit. Kubelet cannot fork processes to perform health checks.
+  - *Fix:* Increase `/proc/sys/kernel/pid_max` and enforce `podPidsLimit` in Kubelet configuration.
+- **Case B: Disk I/O Starvation on `/var/lib/containerd`:** Heavy unbuffered log writes saturated node EBS volume IOPS (100% `%util`), causing `containerd` and `kubelet` heartbeats to time out.
+  - *Fix:* Switch to provisioned IOPS (gp3/io2) and enforce container log rotation limits (`containerLogMaxSize: 50Mi`).
+- **Case C: Missing System Resource Reservations:** Application pods consumed 100% of node RAM, starving `kubelet` and `systemd`.
+  - *Fix:* Enforce `--system-reserved=cpu=500m,memory=1Gi` and `--kube-reserved=cpu=500m,memory=1Gi` in `kubelet-config.yaml`.
+
+---
+
+## 👥 **Mock Interview Round 3: SRE Leadership & Behavioral Scenarios**
+
+### **Question 5: How do you resolve a high-stakes conflict between a Product Manager demanding a new feature release and an SRE Lead enforcing a freeze due to an exhausted Error Budget?**
+
+**Answer:**
+1. **Refer to the Pre-Agreed Error Budget Policy:**
+   - Emphasize that the Error Budget policy is not an arbitrary SRE decision; it is a shared business agreement previously signed by Product, Engineering, and Leadership.
+2. **Data-Driven Transparency:**
+   - Present telemetry demonstrating how recent outages affected customer churn, SLA breach penalties, and team on-call burnout.
+3. **Collaborative Compromise Options:**
+   - **Option A (Feature Flag / Dark Launch):** Deploy the code completely disabled behind a feature flag so developers can proceed with testing without exposing real users to risk.
+   - **Option B (Reliability-First Sprint):** Agree on a 2-week dedicated sprint to fix the technical debt causing error budget burn. Once reliability stabilizes and the error budget recovers, feature releases resume immediately.
+4. **Executive Escalation:** If business requirements mandate an emergency override (e.g., critical compliance deadline), document the accepted risk formally with VP approval and assign dedicated SRE pairing for the deployment.
+
+---
+
+### **Question 6: How do you establish and nurture a Blameless Post-Mortem Culture across an engineering organization?**
+
+**Answer:**
+1. **Focus on Systems, Not Humans:**
+   - Start every post-mortem with the **Etsy Blameless Post-Mortem Creed**: *"We assume that engineers act in good faith with the information and tools they had at the time. Human error is the starting point of an investigation, not the conclusion."*
+2. **Standardize the Template:**
+   - Executive Summary, Incident Timeline (normalized to UTC), Root Cause (5 Whys), What Went Well / What Went Poorly, and SMART Action Items.
+3. **Enforce Accountability on Remediation:**
+   - Track post-mortem action items in sprint backlogs with clear owners and completion deadlines; review open items in monthly engineering leadership meetings.
+4. **Publish Post-Mortems Organically:**
+   - Share internal post-mortems in an open `#engineering-retrospectives` Slack channel to foster organizational learning and cross-team empathy.
