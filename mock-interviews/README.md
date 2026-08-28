@@ -1,6 +1,6 @@
 # **DevOps Mock Interviews & Scenario-Based Case Studies**
 
-Welcome to the **DevOps Mock Interviews & Scenario-Based Case Studies** module. This section provides complete end-to-end interview simulations for **Senior DevOps Engineer**, **Lead SRE**, and **Principal Platform Engineer** roles, covering system design, live incident debugging walkthroughs, and executive architectural discussions.
+Welcome to the **DevOps Mock Interviews & Scenario-Based Case Studies** master guide. This module provides complete end-to-end interview simulations for **Senior DevOps Engineer**, **Lead SRE**, and **Principal Platform Engineer** roles, covering system design, live incident debugging walkthroughs, and executive architectural discussions.
 
 ---
 
@@ -11,13 +11,36 @@ Welcome to the **DevOps Mock Interviews & Scenario-Based Case Studies** module. 
 **Interviewer Prompt:**
 *"Our engineering organization has 1,000 developers running 20,000 pipeline builds per day across 300 microservices. Builds take too long, developers complain about pipeline queue wait times, and we frequently hit API rate limits and security vulnerabilities. Design an enterprise-grade CI/CD platform from the ground up."*
 
-**Candidate Architectural Response:**
+**Detailed Candidate Architectural Response:**
+
+```
+                               ENTERPRISE CI/CD PLATFORM ARCHITECTURE
+ ┌────────────────────────────────────────────────────────────────────────────────────────┐
+ │ 1. DEVELOPER WORKSPACE (GitHub / GitLab Enterprise)                                    │
+ │    • Webhooks dispatch 'workflow_job' events to Kubernetes                             │
+ └──────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                            │ Webhook Trigger
+                                            ▼
+ ┌────────────────────────────────────────────────────────────────────────────────────────┐
+ │ 2. RUNNER CONTROL PLANE: Actions Runner Controller (ARC) on Amazon EKS                │
+ │    • Autoscales ephemeral runner pods in < 5 seconds                                   │
+ │    • Karpenter dynamically provisions EC2 Spot instances (c6i.4xlarge, Graviton c7g)  │
+ └───────────────────┬────────────────────────────────────────────────┬───────────────────┘
+                     │                                                │
+                     ▼                                                ▼
+ ┌──────────────────────────────────────┐         ┌───────────────────────────────────────┐
+ │ 3. HIGH-SPEED CACHING LAYER          │         │ 4. SECURITY & SUPPLY CHAIN GOVERNANCE │
+ │ • AWS EFS / NVMe cache for npm/mvn   │         │ • Zero static keys: OIDC to AWS STS   │
+ │ • Local Harbor Pull-Through Cache    │         │ • Hermetic container builds (Kaniko)  │
+ │ • BuildKit remote registry caching   │         │ • Syft SBOM + Cosign image signing    │
+ └──────────────────────────────────────┘         └───────────────────────────────────────┘
+```
 
 #### **1. Architecture & Compute Infrastructure:**
 - **Control Plane:** GitHub Actions Enterprise / GitLab CI.
 - **Compute Runners:** Deploy **Actions Runner Controller (ARC)** on an **Amazon EKS** cluster.
-  - Runners run as ephemeral Kubernetes Pods created on-demand via GitHub webhook events (`workflow_job`).
-  - Runner pods are destroyed immediately upon job completion to ensure clean security isolation.
+  - Runners execute as ephemeral Kubernetes Pods created on-demand via GitHub webhook events (`workflow_job`).
+  - Runner pods are destroyed immediately upon job completion to ensure complete security isolation.
   - **Autoscaling:** Use **Karpenter** to provision underlying EC2 Spot instances (e.g., `c6i.4xlarge` and Graviton `c7g.4xlarge`) in under 45 seconds to scale runners from 0 to 1,000+ instances during morning peak hours.
 
 #### **2. Performance & Caching Strategy:**
@@ -43,7 +66,30 @@ Welcome to the **DevOps Mock Interviews & Scenario-Based Case Studies** module. 
 **Interviewer Prompt:**
 *"Design a payment processing platform across two cloud regions (`us-east-1` and `eu-west-1`) that can withstand an entire AWS region going offline with zero customer-perceived downtime, strict ACID transaction consistency, and sub-200ms latency."*
 
-**Candidate Architectural Response:**
+**Detailed Candidate Architectural Response:**
+
+```
+                               MULTI-REGION PAYMENT PLATFORM
+ ┌────────────────────────────────────────────────────────────────────────────────────────┐
+ │ GLOBAL ROUTING: AWS Global Accelerator (Anycast IPs) + Route 53 Latency Routing       │
+ └───────────────────────────┬────────────────────────────────────────┬───────────────────┘
+                             │ (Sub-50ms Routing)                     │ (Sub-50ms Routing)
+                             ▼                                        ▼
+ ┌──────────────────────────────────────────────┐ ┌───────────────────────────────────────┐
+ │ REGION 1: US-EAST-1 (Active)                 │ │ REGION 2: EU-WEST-1 (Active)          │
+ │ • Kubernetes (EKS) + Gateway API             │ │ • Kubernetes (EKS) + Gateway API      │
+ │ • Payment Microservices (Argo Rollouts)      │ │ • Payment Microservices (Argo Rollouts│
+ │ • ElastiCache Redis Global Datastore (Cache) │ │ • ElastiCache Redis Global Datastore  │
+ └──────────────────────┬───────────────────────┘ └───────────────────┬───────────────────┘
+                        │                                             │
+                        └──────────────────────┬──────────────────────┘
+                                               ▼
+ ┌────────────────────────────────────────────────────────────────────────────────────────┐
+ │ DISTRIBUTED TRANSACTION DATABASE: CockroachDB Dedicated / Amazon Aurora Global DB      │
+ │ • Multi-Region Raft consensus • Regional partition keys (US vs EU customer data)       │
+ │ • Automatic failover in < 30 seconds with zero data loss (RPO = 0)                     │
+ └────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 #### **1. Global Traffic & Ingress:**
 - **Anycast Layer:** AWS Global Accelerator provides static Anycast IPs and routes traffic over AWS private fiber backbones directly to the nearest regional Application Load Balancers.
@@ -75,7 +121,7 @@ Welcome to the **DevOps Mock Interviews & Scenario-Based Case Studies** module. 
 **Interviewer Prompt:**
 *"It is 2:00 PM on Black Friday. Our e-commerce checkout service is failing with HTTP 504 Gateway Timeouts. Customers cannot place orders. Walk me through your real-time incident diagnosis and resolution process step-by-step."*
 
-**Candidate Response:**
+**Detailed Candidate Response:**
 
 #### **Phase 1: Immediate Triage & Incident Command (Minutes 0–5)**
 1. **Declare Incident:** Open PagerDuty incident bridge, assign Incident Commander (IC), Ops Lead, and Communications Lead.
@@ -120,7 +166,7 @@ Welcome to the **DevOps Mock Interviews & Scenario-Based Case Studies** module. 
 **Interviewer Prompt:**
 *"During a high-throughput load test, multiple worker nodes in our Kubernetes cluster start flapping between Ready and NotReady. Pods are being evicted and rescheduling storms are crashing the cluster. How do you troubleshoot this?"*
 
-**Candidate Response:**
+**Detailed Candidate Response:**
 
 #### **Step 1: Inspect Node Status & Conditions**
 ```bash
@@ -156,7 +202,7 @@ dmesg -T | grep -E -i 'oom|hung_task|out of memory'
 
 ### **Question 5: How do you resolve a high-stakes conflict between a Product Manager demanding a new feature release and an SRE Lead enforcing a freeze due to an exhausted Error Budget?**
 
-**Answer:**
+**Detailed Answer:**
 1. **Refer to the Pre-Agreed Error Budget Policy:**
    - Emphasize that the Error Budget policy is not an arbitrary SRE decision; it is a shared business agreement previously signed by Product, Engineering, and Leadership.
 2. **Data-Driven Transparency:**
@@ -170,7 +216,7 @@ dmesg -T | grep -E -i 'oom|hung_task|out of memory'
 
 ### **Question 6: How do you establish and nurture a Blameless Post-Mortem Culture across an engineering organization?**
 
-**Answer:**
+**Detailed Answer:**
 1. **Focus on Systems, Not Humans:**
    - Start every post-mortem with the **Etsy Blameless Post-Mortem Creed**: *"We assume that engineers act in good faith with the information and tools they had at the time. Human error is the starting point of an investigation, not the conclusion."*
 2. **Standardize the Template:**
